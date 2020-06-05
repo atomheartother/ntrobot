@@ -1,0 +1,32 @@
+version: "3.7"
+
+services:
+  ntrobot:
+    build: 
+      context: .
+    image: navenn_e/ntrobot
+    restart: on-failure
+    environment:
+      TZ: ${TIMEZONE}
+      # PGHOST: postgres
+      # PGDATABASE: ${DB_NAME}
+      # PGPASSWORD: ${DB_PASSWORD}
+      # PGUSER: ${DB_USER}
+      DISCORD_TOKEN: ${DISCORD_TOKEN}
+      PREFIX: ${PREFIX}
+#     depends_on:
+#       - postgres
+
+#   postgres:
+#     image: postgres:13-alpine
+#     restart: always
+#     volumes:
+#       - ./db-init:/docker-entrypoint-initdb.d
+#       - pgdata:/var/lib/postgresql/data
+#     environment:
+#       POSTGRES_DB: ${DB_NAME}
+#       POSTGRES_USER: ${DB_USER}
+#       POSTGRES_PASSWORD: ${DB_PASSWORD}
+
+# volumes:
+#   pgdata:
