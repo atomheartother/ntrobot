@@ -1,7 +1,9 @@
 // Direct mappings for js methods
-import { Client, TextChannel, Permissions } from 'discord.js';
-import Backup from './Backup';
-import log from './log';
+import {
+  Client, Permissions, ClientUser, Guild, User, DMChannel, Channel, TextChannel,
+} from 'discord.js';
+import Backup from '../utils/Backup';
+import log from '../utils/log';
 
 const dClient = new Client({
   messageCacheMaxSize: 1,
@@ -15,9 +17,9 @@ const reconnectionDelay = new Backup({
   maxValue: 60000,
 });
 
-export const getClient = () => dClient;
+export const getClient = () : Client => dClient;
 
-export const login = async () => {
+export const login = async () : Promise<void> => {
   try {
     log('⚙️ Logging into Discord');
     await dClient.login(process.env.DISCORD_TOKEN);
@@ -30,21 +32,21 @@ export const login = async () => {
   }
 };
 
-export const user = () => dClient.user;
+export const user = () : ClientUser => dClient.user;
 
-export const getChannel = (id: string) => dClient.channels.resolve(id);
+export const getChannel = (id: string) : Channel => dClient.channels.resolve(id);
 
-export const getGuild = (id: string) => dClient.guilds.resolve(id);
+export const getGuild = (id: string) : Guild => dClient.guilds.resolve(id);
 
-export const getUser = (id: string) => dClient.users.resolve(id);
+export const getUser = (id: string) : User => dClient.users.resolve(id);
 
-export const getUserDm = async (id: string) => {
+export const getUserDm = async (id: string) : Promise<DMChannel> => {
   const usr = dClient.users.resolve(id);
   if (!usr) return null;
   return usr.dmChannel ? usr.dmChannel : usr.createDM();
 };
 
-export const canPostIn = (channel: TextChannel) => {
+export const canPostIn = (channel: TextChannel) : boolean => {
   if (!channel) return false;
   const permissions = channel.permissionsFor(dClient.user);
   return (
@@ -53,7 +55,7 @@ export const canPostIn = (channel: TextChannel) => {
   );
 };
 
-export const canPostEmbedIn = (channel: TextChannel) => {
+export const canPostEmbedIn = (channel: TextChannel) : boolean => {
   if (!channel) return false;
   const permissions = channel.permissionsFor(dClient.user);
   return (

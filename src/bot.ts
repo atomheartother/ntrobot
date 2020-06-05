@@ -1,16 +1,16 @@
 import { login, getClient } from './discord';
 import {
-    handleMessage,
-    handleError,
-    handleGuildCreate,
-    handleGuildDelete,
-    handleReady,
-    handleChannelDelete,
-  } from './discord/discordEvents';
-  
-  const start = async () => {
-    // Init DB here
-    getClient()
+  handleMessage,
+  handleError,
+  handleGuildCreate,
+  handleGuildDelete,
+  handleReady,
+  handleChannelDelete,
+} from './discord/discordEvents';
+
+const start = async () => {
+  // Init DB here
+  getClient()
     .on('message', handleMessage)
     .on('error', handleError)
     .on('guildCreate', handleGuildCreate)
@@ -18,7 +18,7 @@ import {
     .on('ready', handleReady)
     .on('channelDelete', handleChannelDelete);
 
-    login();
-}
+  login();
+};
 
 start();

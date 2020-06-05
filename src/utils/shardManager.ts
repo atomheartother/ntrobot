@@ -1,5 +1,5 @@
 import { ShardingManager } from 'discord.js';
 
-let manager : ShardingManager = null;
+const manager = new ShardingManager('dist/bot.js', { token: process.env.DISCORD_TOKEN });
 
-export default manager = new ShardingManager('dist/bot.js', { token: process.env.DISCORD_TOKEN });
+export default manager;

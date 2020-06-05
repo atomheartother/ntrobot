@@ -1,9 +1,14 @@
 class Backup {
     mode: string;
+
     inc: number;
+
     startValue: number;
+
     maxValue: number;
+
     val: number;
+
     constructor({
       mode = 'exponential',
       inc = 2,
@@ -16,16 +21,16 @@ class Backup {
       this.maxValue = maxValue;
       this.val = startValue;
     }
-  
-    reset() {
+
+    reset() : void {
       this.val = this.startValue;
     }
-  
-    set(val: number) {
+
+    set(val: number) : void {
       this.val = val;
     }
-  
-    increment() {
+
+    increment() : void {
       switch (this.mode) {
         case 'linear':
           this.val += this.inc;
@@ -37,11 +42,10 @@ class Backup {
         this.val = this.maxValue;
       }
     }
-  
-    value() {
+
+    value() : number {
       return this.val;
     }
-  }
-  
+}
+
 export default Backup;
-  
