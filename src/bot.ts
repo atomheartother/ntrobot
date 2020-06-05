@@ -6,7 +6,7 @@ import {
     handleGuildDelete,
     handleReady,
     handleChannelDelete,
-  } from './discordEvents';
+  } from './discord/discordEvents';
   
   const start = async () => {
     // Init DB here
