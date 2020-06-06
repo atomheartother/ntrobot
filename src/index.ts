@@ -1,7 +1,8 @@
 import manager from './utils/shardManager';
+import log from './utils/log';
 
 const shardReady = () => {
-  console.log('Shard ready~');
+  log('Shard ready~');
 };
 
 const start = async () => {
