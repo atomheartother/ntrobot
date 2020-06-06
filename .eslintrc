@@ -33,10 +33,7 @@
     },
     "settings": {
         "import/resolver": {
-            "node": {
-                "extensions": [".ts", ".json"]
-            },
-            "typescript": {}
+            "typescript": {} // this loads <rootdir>/tsconfig.json to eslint
         }
     }
 }

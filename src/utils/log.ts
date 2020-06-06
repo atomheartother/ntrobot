@@ -1,13 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-console */
-import { TextChannel } from 'discord.js';
+import { getInfo, SupportedChannel } from '../channel';
 
-const log = (message : string, channel : TextChannel = null) : void => {
+const log = (message : any, channel : SupportedChannel = null) : void => {
   const dateString = new Date().toLocaleString('en-GB');
   if (!channel) {
-    console.log(`${dateString}: ${message}`);
+    console.log(dateString);
+    console.log(message);
     return;
   }
-  console.log(`${dateString}: ${channel.id} - #${channel.name}\n${message}`);
+  const channelInfo = getInfo(channel);
+  console.log(`${dateString}\t${channelInfo}`);
+  console.log(message);
 };
 
 export default log;
