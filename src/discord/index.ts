@@ -1,6 +1,6 @@
 // Direct mappings for js methods
 import {
-  Client, Permissions, ClientUser, Guild, User, DMChannel, Channel, TextChannel,
+  Client, Permissions, ClientUser, Guild, User, DMChannel, Channel, TextChannel, Role, GuildMember,
 } from 'discord.js';
 import Backup from '../utils/Backup';
 import log from '../utils/log';
@@ -64,4 +64,21 @@ export const canPostEmbedIn = (channel: TextChannel) : boolean => {
     && permissions.has(Permissions.FLAGS.EMBED_LINKS)
     && permissions.has(Permissions.FLAGS.ATTACH_FILES)
   );
+};
+
+export const getMemberFromMention = (
+  guild: Guild,
+  mention: string,
+) : GuildMember => {
+  let id = (mention.startsWith('<@') && mention.endsWith('>') ? mention.slice(2, -1) : mention);
+  if (id.startsWith('!')) id = id.slice(1);
+  return guild.members.cache.get(id);
+};
+
+export const getRoleFromMention = (
+  guild: Guild,
+  mention: string,
+) : Role => {
+  const id = (mention.startsWith('<@&') && mention.endsWith('>') ? mention.slice(3, -1) : mention);
+  return guild.roles.cache.get(id);
 };

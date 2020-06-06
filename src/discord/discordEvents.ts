@@ -6,9 +6,10 @@ import log from '../utils/log';
 import { ts } from '../send';
 import command from '../command';
 
-export const handleMessage = async ({
-  content, author, channel, mentions,
-} : Message) : Promise<void> => {
+export const handleMessage = async (message : Message) : Promise<void> => {
+  const {
+    content, author, channel, mentions,
+  } = message;
   // Ignore bots
   if (author.bot) return;
   const c = channel as TextChannel;
@@ -24,7 +25,7 @@ export const handleMessage = async ({
     }
     return;
   }
-  command(content.slice(prefix.length), c, author);
+  command(content.slice(prefix.length), c, message);
 };
 
 export const handleReady = () : void => {

@@ -9,7 +9,8 @@ const help = (args: string[], channel: TextChannel) : void => {
     .setColor(0x0e7675)
     .setTitle(i18n(language, 'helpHeader'))
     .setDescription(i18n(language, 'helpIntro'))
-    .addField(`${prefix}chars`, i18n(language, 'usage-chars'));
+    .addField(`${prefix}chars`, i18n(language, 'usage-chars'))
+    .addField(`${prefix}assign`, i18n(language, 'usage-assign'));
   eb(channel, { embed });
 };
 
