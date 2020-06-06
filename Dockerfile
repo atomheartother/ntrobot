@@ -7,6 +7,7 @@ COPY yarn.lock .
 RUN yarn install --production
 
 # Copy everything we need over
+COPY lang/ lang/
 COPY dist/ dist/
 
 CMD [ "yarn", "start"]

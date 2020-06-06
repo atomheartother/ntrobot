@@ -1,5 +1,5 @@
-import manager from './utils/shardManager';
 import log from './utils/log';
+import manager from './utils/shardManager';
 
 const shardReady = () => {
   log('Shard ready~');
