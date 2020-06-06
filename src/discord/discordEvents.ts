@@ -21,6 +21,7 @@ export const handleMessage = async ({
       ts(c, 'prefixUsage', { prefix });
       return;
     }
+    return;
   }
   log(content, c);
 };
