@@ -4,6 +4,7 @@ import {
 import { getClient } from '.';
 import log from '../utils/log';
 import { ts } from '../send';
+import command from '../command';
 
 export const handleMessage = async ({
   content, author, channel, mentions,
@@ -23,7 +24,7 @@ export const handleMessage = async ({
     }
     return;
   }
-  log(content, c);
+  command(content.slice(prefix.length), c, author);
 };
 
 export const handleReady = () : void => {

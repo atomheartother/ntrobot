@@ -1,9 +1,9 @@
-import { TextChannel, MessageEmbed, DiscordAPIError } from 'discord.js';
+import { TextChannel, MessageOptions, DiscordAPIError } from 'discord.js';
 import i18n, { i18nOptions } from '../i18n';
 import log from '../utils/log';
 import handleError from './handleError';
 
-export type BotMessage = MessageEmbed | string;
+export type BotMessage = MessageOptions | string;
 
 const send = async (channel : TextChannel, content: BotMessage) : Promise<number> => {
   try {
@@ -26,5 +26,5 @@ export const ts = (
 
 export const eb = (
   channel: TextChannel,
-  content: MessageEmbed,
+  content: MessageOptions,
 ) : Promise<number> => send(channel, content);
