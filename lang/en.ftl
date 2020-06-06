@@ -1,3 +1,7 @@
+# Variables
+-user =  <user ID/mention>
+-char =  <role ID/mention>
+
 # Help messages
 ## General
 ### This is displayed when the bot is pinged
@@ -16,5 +20,23 @@ helpIntro =
 
 ## Usage strings
 usage-chars = 
-    {-b}Usage:{-b} `chars <user ID>`
+    {-b}Usage:{-b} `chars {-user}`
     List a member's characters.
+
+usage-assign =
+    {-b}Usage:{-b} `assign {-char} {-user}`
+    Assign a character to a member.
+
+# Errors
+noSuchRole =
+    {-b}I couldn't find a role from `{$role}`.{-b}
+    Make sure you mention it or copy its ID!
+
+noSuchMember =
+    {-b}I couldn't find a member from `{$member}`.{-b}
+    Make sure you mention them or copy their ID!
+
+# Commands
+## Assign
+assignSuccess =
+    {-b}{$member} was assigned {$role}!{-b}

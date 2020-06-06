@@ -3,7 +3,7 @@ import { FluentBundle } from 'fluent';
 import log from '../utils/log';
 
 export type i18nOptions = {
-    [key:string]: string
+    [key:string]: string | number
 };
 
 const langs : {
