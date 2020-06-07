@@ -44,17 +44,15 @@ noSuchMember =
 ## Permission fails
 isAdminPermFail =
     {-b}You're not an admin!{-b}
-    You have to be an admin to run {$command}.
+    You have to be an admin to run `{$command}`!
 
-## Permission fails
 isServerModPermFail =
     {-b}You're not a moderator!{-b}
-    You have to be a mod to run {$command}.
+    You have to be a mod to run `{$command}`!
 
-## Permission fails
-isChannelModPermFail =
-    {-b}You're not a moderator!{-b}
-    You have to be a moderator in this channel to run {$command}.
+manageRolesPermFail =
+    {-b}You can't manage user roles!{-b}
+    You have to have powers to manage roles to run `{$command}`!
 
 # Commands
 ## Assign

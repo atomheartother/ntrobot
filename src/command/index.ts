@@ -31,13 +31,13 @@ const CmdList : {
   },
   assign: {
     f: assign,
-    perms: ['isServerMod'],
+    perms: ['manageRoles'],
     minArgs: 2,
     aliases: ['a', 'give'],
   },
   unassign: {
     f: unassign,
-    perms: ['isServerMod'],
+    perms: ['manageRoles'],
     minArgs: 2,
     aliases: ['u', 'un', 'remove'],
   },
