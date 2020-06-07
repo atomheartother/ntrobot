@@ -17,6 +17,7 @@ services:
       DEFAULT_LANG: ${DEFAULT_LANG}
       SUPPORTED_LANG: ${SUPPORTED_LANG}
       LANG_DIR: ${LANG_DIR}
+      OWNER_ID: ${OWNER_ID}
 #     depends_on:
 #       - postgres
 

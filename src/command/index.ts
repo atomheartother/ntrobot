@@ -1,9 +1,12 @@
 import { TextChannel, Message } from 'discord.js';
-import { Permission } from './perms';
+import permisssionList, { Permission } from './perms';
 import help from './help';
 import assign from './assign';
 import unassign from './unassign';
 import { ts } from '../send';
+import { getMemberFromId } from '../discord';
+
+type BotCommand = 'help' | 'unassign' | 'assign';
 
 export type CommandOptions = {
     [key:string] : (string | boolean);
@@ -18,7 +21,7 @@ type CommandDefinition = {
 };
 
 const CmdList : {
-    [key:string]: CommandDefinition
+    [key in BotCommand]: CommandDefinition
 } = {
   help: {
     f: help,
@@ -28,23 +31,23 @@ const CmdList : {
   },
   assign: {
     f: assign,
-    perms: [],
+    perms: ['isServerMod'],
     minArgs: 2,
     aliases: ['a', 'give'],
   },
   unassign: {
     f: unassign,
-    perms: [],
+    perms: ['isServerMod'],
     minArgs: 2,
     aliases: ['u', 'un', 'remove'],
   },
 };
 
-const getCmdFromWord = (word : string) : string => {
-  if (CmdList[word]) return word;
+const getCmdFromWord = (word : string) : BotCommand => {
+  if (CmdList[word as BotCommand]) return word as BotCommand;
   for (let i = 0; i < Object.keys(CmdList).length; i += 1) {
     const key = Object.keys(CmdList)[i];
-    if (CmdList[key].aliases.indexOf(word) !== -1) return key;
+    if (CmdList[key as BotCommand].aliases.indexOf(word) !== -1) return key as BotCommand;
   }
   return null;
 };
@@ -79,6 +82,14 @@ const runCommand = (content : string, channel : TextChannel, message: Message) :
   const cmd = CmdList[verb];
 
   // Check permissions
+  const member = getMemberFromId(channel.guild, message.author.id);
+  for (let i = 0; i < Object.values(cmd.perms).length; i += 1) {
+    const perm = Object.values(cmd.perms)[i] as Permission;
+    if (!permisssionList[perm](member, channel)) {
+      ts(channel, `${perm}PermFail`, { command: verb });
+      return;
+    }
+  }
 
   // Run the command
   const { args, options } = parseWords(words);

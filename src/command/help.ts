@@ -10,7 +10,8 @@ const help = (args: string[], channel: TextChannel) : void => {
     .setTitle(i18n(language, 'helpHeader'))
     .setDescription(i18n(language, 'helpIntro'))
     .addField(`${prefix}chars`, i18n(language, 'usage-chars'))
-    .addField(`${prefix}assign`, i18n(language, 'usage-assign'));
+    .addField(`${prefix}assign`, i18n(language, 'usage-assign'))
+    .addField(`${prefix}unassign`, i18n(language, 'usage-unassign'));
   eb(channel, { embed });
 };
 

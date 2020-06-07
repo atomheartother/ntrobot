@@ -66,13 +66,17 @@ export const canPostEmbedIn = (channel: TextChannel) : boolean => {
   );
 };
 
+export const getMemberFromId = (guild: Guild, id: string) : GuildMember => (
+  guild.members.cache.get(id)
+);
+
 export const getMemberFromMention = (
   guild: Guild,
   mention: string,
 ) : GuildMember => {
   let id = (mention.startsWith('<@') && mention.endsWith('>') ? mention.slice(2, -1) : mention);
   if (id.startsWith('!')) id = id.slice(1);
-  return guild.members.cache.get(id);
+  return getMemberFromId(guild, id);
 };
 
 export const getRoleFromMention = (

@@ -27,7 +27,12 @@ usage-assign =
     {-b}Usage:{-b} `assign {-char} {-user}`
     Assign a character to a member.
 
+usage-unassign =
+    {-b}Usage:{-b} `unassign {-char} {-user}`
+    Unassign a character from a member.
+
 # Errors
+## Resolution errors
 noSuchRole =
     {-b}I couldn't find a role from `{$role}`.{-b}
     Make sure you mention it or copy its ID!
@@ -35,6 +40,21 @@ noSuchRole =
 noSuchMember =
     {-b}I couldn't find a member from `{$member}`.{-b}
     Make sure you mention them or copy their ID!
+
+## Permission fails
+isAdminPermFail =
+    {-b}You're not an admin!{-b}
+    You have to be an admin to run {$command}.
+
+## Permission fails
+isServerModPermFail =
+    {-b}You're not a moderator!{-b}
+    You have to be a mod to run {$command}.
+
+## Permission fails
+isChannelModPermFail =
+    {-b}You're not a moderator!{-b}
+    You have to be a moderator in this channel to run {$command}.
 
 # Commands
 ## Assign
