@@ -1,6 +1,6 @@
 import { TextChannel, GuildMember } from 'discord.js';
 
-export type Permission = 'isAdmin' | 'isServerMod' | 'isChannelMod';
+export type Permission = 'isAdmin' | 'isServerMod' | 'manageRoles';
 
 type PermissionEntry = (author: GuildMember, channel: TextChannel) => boolean;
 
@@ -11,20 +11,18 @@ const isAdmin = (author: GuildMember) : boolean => (
 const isServerMod = (author: GuildMember) : boolean => (
   isAdmin(author)
     || author.hasPermission('MANAGE_CHANNELS')
-    || !!author.roles.cache.get(process.env.MOD_ROLE_ID)
 );
 
-const isChannelMod = (
+const manageRoles = (
   author: GuildMember,
-  channel : TextChannel,
-) : boolean => isServerMod(author) || !!channel.permissionsFor(author).has('MANAGE_CHANNELS');
+) : boolean => isServerMod(author) || !!author.hasPermission('MANAGE_ROLES');
 
 const permisssionList : {
     [key in Permission]: PermissionEntry
 } = {
   isAdmin,
   isServerMod,
-  isChannelMod,
+  manageRoles,
 };
 
 export default permisssionList;

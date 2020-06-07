@@ -66,9 +66,10 @@ export const canPostEmbedIn = (channel: TextChannel) : boolean => {
   );
 };
 
-export const getMemberFromId = (guild: Guild, id: string) : GuildMember => (
-  guild.members.cache.get(id)
-);
+export const getMemberFromId = (
+  guild: Guild,
+  id: string,
+) : GuildMember => guild.members.cache.get(id);
 
 export const getMemberFromMention = (
   guild: Guild,
@@ -79,10 +80,15 @@ export const getMemberFromMention = (
   return getMemberFromId(guild, id);
 };
 
+export const getRoleFromId = (
+  guild: Guild,
+  id: string,
+) : Role => guild.roles.cache.get(id);
+
 export const getRoleFromMention = (
   guild: Guild,
   mention: string,
 ) : Role => {
   const id = (mention.startsWith('<@&') && mention.endsWith('>') ? mention.slice(3, -1) : mention);
-  return guild.roles.cache.get(id);
+  return getRoleFromId(guild, id);
 };
