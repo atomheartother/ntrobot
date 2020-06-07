@@ -40,3 +40,13 @@ noSuchMember =
 ## Assign
 assignSuccess =
     {-b}{$member} was assigned {$role}!{-b}
+    They can now post as them :)
+
+## Unassign
+roleNotAssigned = 
+    {-b}{$member} doesn't have {$role} already!{-b}
+    I didn't do anything.
+
+unassignSuccess =
+    {-b}{$member} doesn't have {$role} anymore!{-b}
+    They've lost all rights on that character.
