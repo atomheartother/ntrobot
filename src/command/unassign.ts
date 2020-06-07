@@ -3,7 +3,7 @@ import { getMemberFromMention, getRoleFromMention } from '../discord';
 import { ts } from '../send';
 import { CommandOptions } from '.';
 
-const assign = (
+const unassign = (
   args: string[],
   channel: TextChannel,
   options : CommandOptions,
@@ -21,9 +21,13 @@ const assign = (
     ts(channel, 'noSuchMember', { member: memberStr });
     return;
   }
-  member.roles.add(role);
-  ts(channel, 'assignSuccess', { role: role.name, member: member.user.tag });
+  if (!member.roles.cache.get(role.id)) {
+    ts(channel, 'roleNotAssigned', { role: role.name, member: member.user.tag });
+    return;
+  }
+  member.roles.remove(role);
+  ts(channel, 'unassignSuccess', { role: role.name, member: member.user.tag });
   message.delete();
 };
 
-export default assign;
+export default unassign;

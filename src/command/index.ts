@@ -2,6 +2,7 @@ import { TextChannel, Message } from 'discord.js';
 import { Permission } from './perms';
 import help from './help';
 import assign from './assign';
+import unassign from './unassign';
 import { ts } from '../send';
 
 export type CommandOptions = {
@@ -30,6 +31,12 @@ const CmdList : {
     perms: [],
     minArgs: 2,
     aliases: ['a', 'give'],
+  },
+  unassign: {
+    f: unassign,
+    perms: [],
+    minArgs: 2,
+    aliases: ['u', 'un', 'remove'],
   },
 };
 
