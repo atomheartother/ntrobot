@@ -1,6 +1,7 @@
 import { pool, getInt } from './common';
 import { createCharacterQuery } from './characters';
 import { createMemberQuery } from './members';
+import log from '../utils/log';
 
 export type AssignReturn = {
   assigned: number,
@@ -32,6 +33,7 @@ export const assign = async (
     ));
     await client.query('COMMIT');
   } catch (e) {
+    log(e);
     await client.query('ROLLBACK');
   } finally {
     client.release();
