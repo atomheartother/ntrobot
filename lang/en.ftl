@@ -83,3 +83,8 @@ sharedCharacter =
 
 mainCharacter =
     Main owner of this character.
+
+## Check
+unownedChar =
+    {-b}{$name} is currently unclaimed!{-b}
+    Maybe you should claim them~ :)
