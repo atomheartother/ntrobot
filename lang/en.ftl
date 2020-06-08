@@ -24,12 +24,16 @@ usage-chars =
     List a member's characters.
 
 usage-assign =
-    {-b}Usage:{-b} `assign {-char} {-user}`
+    {-b}Usage:{-b} `assign {-char} {-user} [--shared]`
     Assign a character to a member.
 
 usage-unassign =
     {-b}Usage:{-b} `unassign {-char} {-user}`
     Unassign a character from a member.
+
+usage-check =
+    {-b}Usage:{-b} `check {-char}`
+    List who, if anyone, owns a character at the moment.
 
 # Errors
 ## Resolution errors
@@ -61,7 +65,7 @@ assignSuccess =
     They can now post as {$roleName} :)
 
 assignSharedSuccess =
-    {-b}<@&${$role}> is now being shared with {$member}!{-b}
+    {-b}<@&{$role}> is now being shared with {$member}!{-b}
     They can now post as {$roleName}
 
 ## Unassign

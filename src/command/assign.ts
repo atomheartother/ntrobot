@@ -21,7 +21,7 @@ const assign = (
     ts(channel, 'noSuchMember', { member: memberStr });
     return;
   }
-  const isShared = !!options.shared;
+  const isShared = !!(options.shared || options.share);
   assignChar(role.id, member.id, isShared);
   member.roles.add(role);
   if (!isShared) {
