@@ -1,5 +1,5 @@
 import { MessageEmbed, TextChannel } from 'discord.js';
-import { getRoleFromId, getMemberFromId, getRoleFromMention } from '../discord';
+import { getMemberFromId, getRoleFromMention } from '../discord';
 import { ts, eb } from '../send';
 import i18n from '../i18n';
 import { roleAssignments } from '../db';
