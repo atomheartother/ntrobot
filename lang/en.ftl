@@ -36,7 +36,7 @@ usage-check =
     List who, if anyone, owns a character at the moment.
 
 usage-edit =
-    {-b}Usage:{-b} `edit {-char} [--name="Character Name"] [--description A long description]`
+    {-b}Usage:{-b} `edit {-char} [--name="Character Name"] [--describe A long description]`
     Edit a character you own. Attach a picture to change the character's avatar.
 
 usage-show = 

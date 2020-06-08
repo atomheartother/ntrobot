@@ -68,7 +68,7 @@ const CmdList : {
     f: edit,
     perms: [],
     minArgs: 1,
-    aliases: ['e', 'modify', 'set'],
+    aliases: ['e', 'modify', 'set', 'register'],
   },
 };
 
@@ -90,9 +90,24 @@ const parseWords = (words: string[]) : {args: string[], options: CommandOptions}
       const option = w.slice(2).split('=');
       if (option.length === 1) {
         options[option[0]] = true;
-      } else if (option.length === 2) {
-        const [key, value] = option;
-        options[key] = value;
+      } else {
+        // key=xxxxxx
+        const key = option.shift();
+        // Reconstruct the word in case there's equals in it
+        let val = option.join('=');
+        // Were there brackets? If not, just grab the word as-is
+        if (val[0] === '"') {
+          val = val.slice(1);
+          while (val.indexOf('"') === -1) {
+            i += 1;
+            const valWord = words[i];
+            // We've exhausted every word
+            if (!valWord) return { args, options };
+            val += ` ${valWord}`;
+          }
+          val = val.slice(0, val.indexOf('"'));
+        }
+        options[key] = val;
       }
     } else {
       args.push(w);
