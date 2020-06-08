@@ -1,8 +1,8 @@
 import { MessageEmbed, TextChannel } from 'discord.js';
 import { getMemberFromMention, getRoleFromId } from '../discord';
 import { ts, eb } from '../send';
-import { getCharsFromMemberId } from '../db/assigned';
 import i18n from '../i18n';
+import { memberAssignments } from '../db';
 
 const chars = async (
   args: string[],
@@ -12,9 +12,10 @@ const chars = async (
   const member = getMemberFromMention(channel.guild, memberStr);
   if (!member) {
     ts(channel, 'noSuchMember', { member: memberStr });
+    return;
   }
   const language = 'en';
-  const charList = await getCharsFromMemberId(member.id);
+  const charList = await memberAssignments(member.id);
   if (charList.length < 1) {
     ts(channel, 'memberHasNoChars', { name: member.user.tag });
     return;
