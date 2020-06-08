@@ -38,7 +38,7 @@ const assign = (
       member: member.user.tag,
     });
   }
-  message.delete();
+  // message.delete();
 };
 
 export default assign;
