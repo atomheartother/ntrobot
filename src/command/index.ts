@@ -3,10 +3,11 @@ import permisssionList, { Permission } from './perms';
 import help from './help';
 import assign from './assign';
 import unassign from './unassign';
+import chars from './chars';
 import { ts } from '../send';
 import { getMemberFromId } from '../discord';
 
-type BotCommand = 'help' | 'unassign' | 'assign';
+type BotCommand = 'help' | 'unassign' | 'assign' | 'chars';
 
 export type CommandOptions = {
     [key:string] : (string | boolean);
@@ -40,6 +41,12 @@ const CmdList : {
     perms: ['manageRoles'],
     minArgs: 2,
     aliases: ['u', 'un', 'remove'],
+  },
+  chars: {
+    f: chars,
+    perms: [],
+    minArgs: 1,
+    aliases: ['c', 'char', 'characters'],
   },
 };
 
