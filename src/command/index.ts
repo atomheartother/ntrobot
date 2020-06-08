@@ -6,9 +6,12 @@ import unassign from './unassign';
 import chars from './chars';
 import check from './check';
 import { ts } from '../send';
+import show from './show';
+import edit from './edit';
+
 import { getMemberFromId } from '../discord';
 
-type BotCommand = 'help' | 'unassign' | 'assign' | 'chars' | 'check';
+type BotCommand = 'help' | 'unassign' | 'assign' | 'chars' | 'check' | 'show' | 'edit';
 
 export type CommandOptions = {
     [key:string] : (string | boolean);
@@ -54,6 +57,18 @@ const CmdList : {
     perms: [],
     minArgs: 1,
     aliases: ['members', 'owned'],
+  },
+  show: {
+    f: show,
+    perms: [],
+    minArgs: 1,
+    aliases: ['s', 'display', 'profile', 'describe'],
+  },
+  edit: {
+    f: edit,
+    perms: [],
+    minArgs: 1,
+    aliases: ['e', 'modify', 'set'],
   },
 };
 
@@ -105,13 +120,14 @@ const runCommand = (content : string, channel : TextChannel, message: Message) :
     }
   }
 
-  // Run the command
+  // Parse the args provided
   const { args, options } = parseWords(words);
   // Check number of args
   if (args.length < cmd.minArgs) {
     ts(channel, `usage-${verb}`, { cmd: verb, minArgs: cmd.minArgs });
     return;
   }
+  // Run the command
   cmd.f(args, channel, options, message);
 };
 
