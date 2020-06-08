@@ -4,15 +4,14 @@ export const createCharacterQuery = async (
   client: SQLClient,
   roleid: string,
 ) : Promise<number> => {
-  const { rows: [{ case: inserted }] } = await client.query(
+  const { rowCount } = await client.query(
     `INSERT INTO characters(roleid) 
     VALUES($1)
     ON CONFLICT
-      DO NOTHING
-    RETURNING case when xmax::text::int > 0 then 0 else 1 end`,
+      DO NOTHING`,
     [roleid],
   );
-  return inserted;
+  return rowCount;
 };
 
 export const createCharacter = (

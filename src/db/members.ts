@@ -4,15 +4,14 @@ export const createMemberQuery = async (
   client: SQLClient,
   memberid: string,
 ) : Promise<number> => {
-  const { rows: [{ case: inserted }] } = await client.query(
+  const { rowCount } = await client.query(
     `INSERT INTO members(memberid) 
     VALUES($1)
     ON CONFLICT
-      DO NOTHING
-    RETURNING case when xmax::text::int > 0 then 0 else 1 end`,
+      DO NOTHING`,
     [memberid],
   );
-  return inserted;
+  return rowCount;
 };
 
 export const createMember = (
