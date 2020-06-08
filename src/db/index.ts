@@ -1,7 +1,12 @@
+import { init } from './common';
 import {
   assign, unassign, AssignReturn, AssignedColumns, getCharsFromMemberId, getMembersFromCharId,
 } from './assigned';
 import { rmMember } from './members';
+
+// Common
+export const initDatabase = init;
+
 // Assigned
 export const assignChar = (
   roleId: string,

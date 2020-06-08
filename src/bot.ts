@@ -5,9 +5,11 @@ import {
   handleReady,
   handleMemberRemove,
 } from './discord/discordEvents';
+import { initDatabase } from './db';
 
 const start = async () => {
   // Init DB here
+  initDatabase();
   getClient()
     .on('message', handleMessage)
     .on('error', handleError)

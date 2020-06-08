@@ -25,7 +25,7 @@ export const assign = async (
       `INSERT INTO
       assigned(roleid, memberid, shared)
         VALUES($1, $2, $3)
-      ON CONFLICT ON CONSTRAINT(assignedkey) DO
+      ON CONFLICT ON CONSTRAINT assignedkey DO
         UPDATE SET shared=$3
       RETURNING case when xmax::text::int > 0 then 0 else 1 end`,
       [roleid, memberid, shared],
