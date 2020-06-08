@@ -1,10 +1,11 @@
 import {
-  Guild, Message, Channel, TextChannel,
+  Message, TextChannel, GuildMember, PartialGuildMember,
 } from 'discord.js';
 import { getClient } from '.';
 import log from '../utils/log';
 import { ts } from '../send';
 import command from '../command';
+import { memberAssignments, deleteMember } from '../db';
 
 export const handleMessage = async (message : Message) : Promise<void> => {
   const {
@@ -36,14 +37,11 @@ export const handleError = ({ message }: Error) : void => {
   log(`Discord client encountered an error: ${message}`);
 };
 
-export const handleGuildCreate = ({ name } : Guild) : void => {
-  log(`Joined guild ${name}`);
-};
 
-export const handleGuildDelete = ({ name }: Guild) : void => {
-  log(`Left guild ${name}.`);
-};
-
-export const handleChannelDelete = ({ id }: Channel) : void => {
-  log(`Channel ${id} deleted.`);
+export const handleMemberRemove = async (
+  { id, user, guild }: GuildMember | PartialGuildMember,
+) : Promise<void> => {
+  const assigned = await memberAssignments(id);
+  await deleteMember(id);
+  log(`${guild.name}: ${user.tag} has left. ${assigned.length} characters freed`);
 };

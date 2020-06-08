@@ -2,10 +2,8 @@ import { login, getClient } from './discord';
 import {
   handleMessage,
   handleError,
-  handleGuildCreate,
-  handleGuildDelete,
   handleReady,
-  handleChannelDelete,
+  handleMemberRemove,
 } from './discord/discordEvents';
 
 const start = async () => {
@@ -13,11 +11,8 @@ const start = async () => {
   getClient()
     .on('message', handleMessage)
     .on('error', handleError)
-    .on('guildCreate', handleGuildCreate)
-    .on('guildDelete', handleGuildDelete)
     .on('ready', handleReady)
-    .on('channelDelete', handleChannelDelete);
-
+    .on('guildMemberRemove', handleMemberRemove);
   login();
 };
 
