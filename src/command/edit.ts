@@ -33,7 +33,8 @@ const edit = async (
   if (options.name) {
     char.name = options.name as string;
   }
-  if (options.description) {
+  const descriptionOption = options.description || options.describe || options.desc;
+  if (descriptionOption) {
     char.description = args.join(' ');
   }
   if (message.attachments.first()) {

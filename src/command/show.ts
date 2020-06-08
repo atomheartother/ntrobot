@@ -4,16 +4,14 @@ import { getRoleFromMention } from '../discord';
 import { Character } from '../db/characters';
 import { ts, eb } from '../send';
 
-export const characterEmbed = (char: Character, role: Role) : MessageEmbed => {
+export const characterEmbed = (char: Character | null, role: Role) : MessageEmbed => {
   const embed = new MessageEmbed()
-    .setAuthor(char.name || role.name)
+    .setAuthor((char && char.name) || role.name)
     .setColor(role.color);
-  if (char.avatar) {
+  if (char && char.avatar) {
     embed.setThumbnail(char.avatar);
   }
-  if (char.description) {
-    embed.setDescription(char.description || 'No description available');
-  }
+  embed.setDescription(char && char.description && char.description.length > 0 ? char.description : 'No description available');
   return embed;
 };
 
