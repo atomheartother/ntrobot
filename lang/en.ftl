@@ -35,6 +35,14 @@ usage-check =
     {-b}Usage:{-b} `check {-char}`
     List who, if anyone, owns a character at the moment.
 
+usage-edit =
+    {-b}Usage:{-b} `edit {-char} [--name="Character Name"] [--description A long description]`
+    Edit a character you own. Attach a picture to change the character's avatar.
+
+usage-show = 
+    {-b}Usage:{-b} `show {-char}`
+    Show this character's profile.
+
 # Errors
 ## Resolution errors
 noSuchRole =

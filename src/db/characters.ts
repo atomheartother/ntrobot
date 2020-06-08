@@ -37,7 +37,7 @@ export const rmCharacter = async (roleid : string) : Promise<{characters: number
 
 export const getCharacterFromId = async (
   roleid: string,
-) : Promise<Character> => {
+) : Promise<Character | null> => {
   const { rows: [char] } = await pool().query<Character>(
     `SELECT
       ${getInt('roleid')}, name, description, avatar, canon
