@@ -29,7 +29,7 @@ const unassign = (
   unassignChar(role.id, member.id);
   member.roles.remove(role);
   ts(channel, 'unassignSuccess', { role: role.id, member: member.user.tag, roleName: role.name });
-  message.delete();
+  // message.delete();
 };
 
 export default unassign;
