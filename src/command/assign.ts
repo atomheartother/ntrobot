@@ -2,6 +2,7 @@ import { TextChannel, Message } from 'discord.js';
 import { getMemberFromMention, getRoleFromMention } from '../discord';
 import { ts } from '../send';
 import { CommandOptions } from '.';
+import { assignChar } from '../db';
 
 const assign = (
   args: string[],
