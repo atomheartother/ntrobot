@@ -23,12 +23,12 @@ const unassign = (
     return;
   }
   if (!member.roles.cache.get(role.id)) {
-    ts(channel, 'roleNotAssigned', { role: role.name, member: member.user.tag });
+    ts(channel, 'roleNotAssigned', { role: role.id, member: member.user.tag, roleName: role.name });
     return;
   }
   unassignChar(role.id, member.id);
   member.roles.remove(role);
-  ts(channel, 'unassignSuccess', { role: role.name, member: member.user.tag });
+  ts(channel, 'unassignSuccess', { role: role.id, member: member.user.tag, roleName: role.name });
   message.delete();
 };
 

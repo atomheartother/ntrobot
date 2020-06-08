@@ -22,9 +22,22 @@ const assign = (
     ts(channel, 'noSuchMember', { member: memberStr });
     return;
   }
-  assignChar(role.id, member.id, !!options.shared);
+  const isShared = !!options.shared;
+  assignChar(role.id, member.id, isShared);
   member.roles.add(role);
-  ts(channel, 'assignSuccess', { role: role.name, member: member.user.tag });
+  if (!isShared) {
+    ts(channel, 'assignSuccess', {
+      role: role.id,
+      roleName: role.name,
+      member: member.user.tag,
+    });
+  } else {
+    ts(channel, 'assignSharedSuccess', {
+      role: role.id,
+      roleName: role.name,
+      member: member.user.tag,
+    });
+  }
   message.delete();
 };
 
