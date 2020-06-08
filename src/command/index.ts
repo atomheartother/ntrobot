@@ -145,7 +145,7 @@ const runCommand = (content : string, channel : TextChannel, message: Message) :
     return;
   }
   // Run the command, recombining the lines from before
-  cmd.f(args.concat(lines.join('\n').split(/ +/)), channel, options, message);
+  cmd.f(args.concat('\n', lines.join('\n').split(/ +/)), channel, options, message);
 };
 
 export default runCommand;
