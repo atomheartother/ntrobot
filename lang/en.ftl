@@ -72,3 +72,14 @@ roleNotAssigned =
 unassignSuccess =
     {-b}{$member} doesn't have <@&{$role}> anymore!{-b}
     They've lost all rights on {$roleName} :)
+
+## Chars
+memberHasNoChars =
+    {-b}{$name} doesn't have any characters assigned!{-b}
+    A staff member can assign roles to them with the `assign` command.
+
+sharedCharacter =
+    As a shared character.
+
+mainCharacter =
+    Main owner of this character.
