@@ -61,7 +61,7 @@ export type AssignedColumns = {
 export const getCharsFromMemberId = async (
   memberid : string,
 ) : Promise<AssignedColumns[]> => {
-  const { rows } = await pool().query(
+  const { rows } = await pool().query<AssignedColumns>(
     `SELECT ${getInt('roleid')}, ${getInt('memberid')}, shared
     FROM assigned 
     WHERE memberid = $1`,

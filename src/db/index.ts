@@ -1,8 +1,9 @@
 import { init } from './common';
 import {
-  assign, unassign, AssignReturn, AssignedColumns, getCharsFromMemberId, getMembersFromCharId,
+  assign, unassign, AssignReturn, getCharsFromMemberId, getMembersFromCharId,
 } from './assigned';
 import { rmMember } from './members';
+import { getCharacterFromId, setCharacter } from './characters';
 
 // Common
 export const initDatabase = init;
@@ -18,20 +19,15 @@ export const assignChar = (
   shared,
 );
 
-export const unassignChar = (
-  roleId: string,
-  memberId: string,
-) : Promise<number> => unassign(roleId, memberId);
+export const unassignChar = unassign;
 
-export const memberAssignments = (
-  memberId: string,
-) : Promise<AssignedColumns[]> => getCharsFromMemberId(memberId);
+export const memberAssignments = getCharsFromMemberId;
 
-export const roleAssignments = (
-  roleId: string,
-) : Promise<AssignedColumns[]> => getMembersFromCharId(roleId);
+export const roleAssignments = getMembersFromCharId;
 
 // Members
-export const deleteMember = (
-  memberid : string,
-) : Promise<number> => rmMember(memberid);
+export const deleteMember = rmMember;
+
+// Characters
+export const getCharacter = getCharacterFromId;
+export const editCharacter = setCharacter;

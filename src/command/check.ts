@@ -2,7 +2,8 @@ import { MessageEmbed, TextChannel } from 'discord.js';
 import { getMemberFromId, getRoleFromMention } from '../discord';
 import { ts, eb } from '../send';
 import i18n from '../i18n';
-import { roleAssignments } from '../db';
+import { roleAssignments, getCharacter } from '../db';
+import { characterEmbed } from './show';
 
 const check = async (
   args: string[],
@@ -20,9 +21,8 @@ const check = async (
     ts(channel, 'unownedChar', { name: role.name });
     return;
   }
-  const embed = new MessageEmbed()
-    .setAuthor(role.name)
-    .setColor(role.color);
+  const char = await getCharacter(role.id);
+  const embed = characterEmbed(char, role);
   memberList.forEach(({ memberid, shared }) => {
     const member = getMemberFromId(channel.guild, memberid);
     embed.addField(`${member.user.tag} (${member.id})`, i18n(language, shared ? 'sharedCharacter' : 'mainCharacter'));

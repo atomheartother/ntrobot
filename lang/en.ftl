@@ -92,3 +92,8 @@ mainCharacter =
 unownedChar =
     {-b}{$name} is currently unclaimed!{-b}
     Maybe you should claim them~ :)
+
+## Edit
+cannotEdit =
+    {-b}You can't edit {$name}!{-b}
+    Only {$name}'s owners and server staff can edit a character.
