@@ -57,14 +57,18 @@ manageRolesPermFail =
 # Commands
 ## Assign
 assignSuccess =
-    {-b}{$member} was assigned {$role}!{-b}
-    They can now post as them :)
+    {-b}{$member} was assigned <@&{$role}>!{-b}
+    They can now post as {$roleName} :)
+
+assignSharedSuccess =
+    {-b}<@&${$role}> is now being shared with {$member}!{-b}
+    They can now post as {$roleName}
 
 ## Unassign
 roleNotAssigned = 
-    {-b}{$member} doesn't have {$role} already!{-b}
-    I didn't do anything.
+    {-b}{$member} already doesn't have <@&{$role}>!{-b}
+    I didn't do anything :(
 
 unassignSuccess =
-    {-b}{$member} doesn't have {$role} anymore!{-b}
-    They've lost all rights on that character.
+    {-b}{$member} doesn't have <@&{$role}> anymore!{-b}
+    They've lost all rights on {$roleName} :)
