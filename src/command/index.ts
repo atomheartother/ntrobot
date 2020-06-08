@@ -118,8 +118,10 @@ const parseWords = (words: string[]) : {args: string[], options: CommandOptions}
 
 // The entrypoint for all commands
 const runCommand = (content : string, channel : TextChannel, message: Message) : void => {
-  // Get the command
-  const words = content.split(/ +/);
+  // Get the first line, which should hold the actual command
+  const lines = content.split(/\n+/);
+  if (lines.length < 1) return;
+  const words = lines.shift().split(/ +/);
   const firstWord = words.shift();
   const verb = getCmdFromWord(firstWord);
   if (!verb) return;
@@ -142,8 +144,8 @@ const runCommand = (content : string, channel : TextChannel, message: Message) :
     ts(channel, `usage-${verb}`, { cmd: verb, minArgs: cmd.minArgs });
     return;
   }
-  // Run the command
-  cmd.f(args, channel, options, message);
+  // Run the command, recombining the lines from before
+  cmd.f(args.concat(lines.join('\n').split(/ +/)), channel, options, message);
 };
 
 export default runCommand;
