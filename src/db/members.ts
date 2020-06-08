@@ -15,15 +15,14 @@ export const createMemberQuery = async (
   return inserted;
 };
 
-export const createCharacter = (
+export const createMember = (
   memberid: string,
 ) : Promise<number> => createMemberQuery(pool(), memberid);
 
-export const rmCharacter = async (roleid : string) : Promise<{characters: number}> => {
-  let characters = 0;
-  ({ rowCount: characters } = await pool().query(
-    'DELETE FROM characters WHERE roleid = $1',
-    [roleid],
-  ));
-  return { characters };
+export const rmMember = async (memberid : string) : Promise<number> => {
+  const { rowCount: members } = await pool().query(
+    'DELETE FROM members WHERE memberid = $1',
+    [memberid],
+  );
+  return members;
 };

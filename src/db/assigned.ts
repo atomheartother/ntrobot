@@ -1,4 +1,4 @@
-import { pool } from './common';
+import { pool, getInt } from './common';
 import { createCharacterQuery } from './characters';
 import { createMemberQuery } from './members';
 
@@ -48,4 +48,34 @@ export const unassign = async (
     [roleid, memberid],
   );
   return rowCount;
+};
+
+export type AssignedColumns = {
+  memberid: string;
+  roleid: string;
+  shared: boolean;
+};
+
+export const getCharsFromMemberId = async (
+  memberid : string,
+) : Promise<AssignedColumns[]> => {
+  const { rows } = await pool().query(
+    `SELECT ${getInt('roleid')}, ${getInt('memberid')}, shared
+    FROM assigned 
+    WHERE memberid = $1`,
+    [memberid],
+  );
+  return rows;
+};
+
+export const getMembersFromCharId = async (
+  roleid: string,
+) : Promise<AssignedColumns[]> => {
+  const { rows } = await pool().query(
+    `SELECT ${getInt('roleid')}, ${getInt('memberid')}, shared
+    FROM assigned 
+    WHERE roleid = $1`,
+    [roleid],
+  );
+  return rows;
 };

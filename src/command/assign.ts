@@ -22,6 +22,7 @@ const assign = (
     ts(channel, 'noSuchMember', { member: memberStr });
     return;
   }
+  assignChar(role.id, member.id, !!options.shared);
   member.roles.add(role);
   ts(channel, 'assignSuccess', { role: role.name, member: member.user.tag });
   message.delete();

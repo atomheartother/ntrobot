@@ -2,6 +2,7 @@ import { TextChannel, Message } from 'discord.js';
 import { getMemberFromMention, getRoleFromMention } from '../discord';
 import { ts } from '../send';
 import { CommandOptions } from '.';
+import { unassignChar } from '../db';
 
 const unassign = (
   args: string[],
@@ -25,6 +26,7 @@ const unassign = (
     ts(channel, 'roleNotAssigned', { role: role.name, member: member.user.tag });
     return;
   }
+  unassignChar(role.id, member.id);
   member.roles.remove(role);
   ts(channel, 'unassignSuccess', { role: role.name, member: member.user.tag });
   message.delete();
