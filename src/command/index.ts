@@ -4,14 +4,13 @@ import help from './help';
 import assign from './assign';
 import unassign from './unassign';
 import chars from './chars';
-import check from './check';
 import { ts } from '../send';
 import show from './show';
 import edit from './edit';
 
 import { getMemberFromId } from '../discord';
 
-type BotCommand = 'help' | 'unassign' | 'assign' | 'chars' | 'check' | 'show' | 'edit';
+type BotCommand = 'help' | 'unassign' | 'assign' | 'chars' | 'show' | 'edit';
 
 export type CommandOptions = {
     [key:string] : (string | boolean);
@@ -50,19 +49,13 @@ const CmdList : {
     f: chars,
     perms: [],
     minArgs: 1,
-    aliases: ['char', 'characters'],
-  },
-  check: {
-    f: check,
-    perms: [],
-    minArgs: 1,
-    aliases: ['members', 'owned'],
+    aliases: ['c', 'char', 'characters'],
   },
   show: {
     f: show,
     perms: [],
     minArgs: 1,
-    aliases: ['s', 'display', 'profile', 'describe'],
+    aliases: ['s', 'display', 'profile', 'describe', 'members', 'owned', 'check'],
   },
   edit: {
     f: edit,

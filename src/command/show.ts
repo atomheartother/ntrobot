@@ -1,8 +1,9 @@
 import { TextChannel, Role, MessageEmbed } from 'discord.js';
-import { getCharacter } from '../db';
-import { getRoleFromMention } from '../discord';
+import { getCharacter, roleAssignments } from '../db';
+import { getRoleFromMention, getMemberFromId } from '../discord';
 import { Character } from '../db/characters';
 import { ts, eb } from '../send';
+import i18n from '../i18n';
 
 export const characterEmbed = (char: Character | null, role: Role) : MessageEmbed => {
   const embed = new MessageEmbed()
@@ -15,7 +16,7 @@ export const characterEmbed = (char: Character | null, role: Role) : MessageEmbe
   return embed;
 };
 
-const show = async (
+const check = async (
   args: string[],
   channel: TextChannel,
 ) : Promise<void> => {
@@ -25,8 +26,19 @@ const show = async (
     ts(channel, 'noSuchRole', { role: roleStr });
     return;
   }
+  const language = 'en';
+  const memberList = await roleAssignments(role.id);
+  if (memberList.length < 1) {
+    ts(channel, 'unownedChar', { name: role.name });
+    return;
+  }
   const char = await getCharacter(role.id);
-  eb(channel, { embed: characterEmbed(char, role) });
+  const embed = characterEmbed(char, role);
+  memberList.forEach(({ memberid, shared }) => {
+    const member = getMemberFromId(channel.guild, memberid);
+    embed.addField(`${member.user.tag} (${member.id})`, i18n(language, shared ? 'sharedCharacter' : 'mainCharacter'));
+  });
+  eb(channel, { embed });
 };
 
-export default show;
+export default check;
