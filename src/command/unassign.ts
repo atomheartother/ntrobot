@@ -1,14 +1,11 @@
-import { TextChannel, Message } from 'discord.js';
+import { TextChannel } from 'discord.js';
 import { getMemberFromMention, getRoleFromMention } from '../discord';
 import { ts } from '../send';
-import { CommandOptions } from '.';
 import { unassignChar } from '../db';
 
 const unassign = (
   args: string[],
   channel: TextChannel,
-  options : CommandOptions,
-  message: Message,
 ) : void => {
   const roleStr = args.shift();
   const role = getRoleFromMention(channel.guild, roleStr);
