@@ -1,6 +1,6 @@
 # Variables
 -user =  <user ID/mention>
--char =  <role ID/mention>
+-char =  <character name/mention/role ID>
 
 # Help messages
 ## General
