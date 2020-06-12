@@ -7,13 +7,14 @@ import i18n from '../i18n';
 import { getCharFromStr } from '../utils/getters';
 
 export const characterEmbed = (char: Character | null, role: Role) : MessageEmbed => {
+  const language = 'en';
   const embed = new MessageEmbed()
     .setAuthor((char && char.name) || role.name)
     .setColor(role.color);
   if (char && char.avatar) {
     embed.setThumbnail(char.avatar);
   }
-  embed.setDescription(char && char.description && char.description.length > 0 ? char.description : 'No description available');
+  embed.setDescription(char && char.description && char.description.length > 0 ? char.description : i18n(language, 'noDescription'));
   return embed;
 };
 
@@ -29,16 +30,15 @@ const check = async (
   }
   const language = 'en';
   const memberList = await roleAssignments(char.roleid);
-  if (memberList.length < 1) {
-    ts(channel, 'unownedChar', { role: char.roleid });
-    return;
-  }
   const role = getRoleFromId(channel.guild, char.roleid);
   const embed = characterEmbed(char, role);
   memberList.forEach(({ memberid, shared }) => {
     const member = getMemberFromId(channel.guild, memberid);
     embed.addField(`${member.user.tag} (${member.id})`, i18n(language, shared ? 'sharedCharacter' : 'mainCharacter'));
   });
+  if (memberList.length < 1) {
+    embed.addField(i18n(language, 'unownedCharTitle'), i18n(language, 'unownedCharBody'));
+  }
   eb(channel, { embed });
 };
 
