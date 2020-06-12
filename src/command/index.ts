@@ -41,7 +41,7 @@ const CmdList : {
   },
   unassign: {
     f: unassign,
-    perms: ['manageRoles'],
+    perms: ['characterOwner'],
     minArgs: 2,
     aliases: ['u', 'un', 'remove'],
   },
@@ -59,7 +59,7 @@ const CmdList : {
   },
   edit: {
     f: edit,
-    perms: [],
+    perms: ['characterOwner'],
     minArgs: 1,
     aliases: ['e', 'modify', 'set', 'register'],
   },
@@ -74,37 +74,22 @@ const getCmdFromWord = (word : string) : BotCommand => {
   return null;
 };
 
-const parseWords = (words: string[]) : {args: string[], options: CommandOptions} => {
+const parseWords = (line: string) : {args: string[], options: CommandOptions} => {
   const args : string[] = [];
   const options : CommandOptions = {};
-  for (let i = 0; i < words.length; i += 1) {
-    const w = words[i];
-    if (w.indexOf('--') === 0) {
-      const option = w.slice(2).split('=');
-      if (option.length === 1) {
-        options[option[0]] = true;
-      } else {
-        // key=xxxxxx
-        const key = option.shift();
-        // Reconstruct the word in case there's equals in it
-        let val = option.join('=');
-        // Were there brackets? If not, just grab the word as-is
-        if (val[0] === '"') {
-          val = val.slice(1);
-          while (val.indexOf('"') === -1) {
-            i += 1;
-            const valWord = words[i];
-            // We've exhausted every word
-            if (!valWord) return { args, options };
-            val += ` ${valWord}`;
-          }
-          val = val.slice(0, val.indexOf('"'));
-        }
-        options[key] = val;
-      }
+  const regxp = /--(\w+)(="(.*?)"|=(\S+))?|"(.*?)"|(\S+)/g;
+  let match = regxp.exec(line);
+  while (match) {
+    if (match[6] || match[5]) { // Single word or multiple word arg
+      args.push(match[6] || match[5]);
+    } else if (match[1] && !match[2]) { // Option with no equal
+      options[match[1]] = true;
     } else {
-      args.push(w);
+      const key = match[1];
+      const value = match[3] || match[4]; // Multiple word value or simple value
+      options[key] = value;
     }
+    match = regxp.exec(line);
   }
   return { args, options };
 };
@@ -123,15 +108,15 @@ const runCommand = (content : string, channel : TextChannel, message: Message) :
   // Check permissions
   const member = getMemberFromId(channel.guild, message.author.id);
   for (let i = 0; i < Object.values(cmd.perms).length; i += 1) {
-    const perm = Object.values(cmd.perms)[i] as Permission;
-    if (!permisssionList[perm](member, channel)) {
+    const perm = Object.values(cmd.perms)[i];
+    if (!permisssionList[perm](member, words)) {
       ts(channel, `${perm}PermFail`, { command: verb });
       return;
     }
   }
 
   // Parse the args provided
-  const { args, options } = parseWords(words);
+  const { args, options } = parseWords(words.join(' '));
   // Check number of args
   if (args.length < cmd.minArgs) {
     ts(channel, `usage-${verb}`, { cmd: verb, minArgs: cmd.minArgs });

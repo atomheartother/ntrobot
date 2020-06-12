@@ -1,9 +1,10 @@
 import { TextChannel, Role, MessageEmbed } from 'discord.js';
-import { getCharacter, roleAssignments } from '../db';
-import { getRoleFromMention, getMemberFromId } from '../discord';
+import { roleAssignments } from '../db';
+import { getMemberFromId, getRoleFromId } from '../discord';
 import { Character } from '../db/characters';
 import { ts, eb } from '../send';
 import i18n from '../i18n';
+import { getCharFromStr } from '../utils/getters';
 
 export const characterEmbed = (char: Character | null, role: Role) : MessageEmbed => {
   const embed = new MessageEmbed()
@@ -20,19 +21,19 @@ const check = async (
   args: string[],
   channel: TextChannel,
 ) : Promise<void> => {
-  const roleStr = args.shift();
-  const role = getRoleFromMention(channel.guild, roleStr);
-  if (!role) {
-    ts(channel, 'noSuchRole', { role: roleStr });
+  const name = args.shift();
+  const char = await getCharFromStr(name, channel.guild);
+  if (!char) {
+    ts(channel, 'noSuchChar', { name });
     return;
   }
   const language = 'en';
-  const memberList = await roleAssignments(role.id);
+  const memberList = await roleAssignments(char.roleid);
   if (memberList.length < 1) {
-    ts(channel, 'unownedChar', { name: role.name });
+    ts(channel, 'unownedChar', { role: char.roleid });
     return;
   }
-  const char = await getCharacter(role.id);
+  const role = getRoleFromId(channel.guild, char.roleid);
   const embed = characterEmbed(char, role);
   memberList.forEach(({ memberid, shared }) => {
     const member = getMemberFromId(channel.guild, memberid);

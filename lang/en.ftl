@@ -45,13 +45,13 @@ usage-show =
 
 # Errors
 ## Resolution errors
-noSuchRole =
-    {-b}I couldn't find a role from `{$role}`.{-b}
-    Make sure you mention it or copy its ID!
+noSuchChar =
+    {-b}I couldn't find a character from `{$name}`.{-b}
+    Maybe I've never heard of them? :o
 
 noSuchMember =
     {-b}I couldn't find a member from `{$member}`.{-b}
-    Make sure you mention them or copy their ID!
+    Either they're not in this server or this is the wrong name/id!
 
 ## Permission fails
 isAdminPermFail =
@@ -66,15 +66,20 @@ manageRolesPermFail =
     {-b}You can't manage user roles!{-b}
     You have to have powers to manage roles to run `{$command}`!
 
+characterOwner =
+    {-b}You don't own this character !{-b}
+    You have to own this character in order to run `{$command}`.
+    It's also possible I don't know this character.
+
 # Commands
 ## Assign
 assignSuccess =
     {-b}{$member} was assigned <@&{$role}>!{-b}
-    They can now post as {$roleName} :)
+    Approved!~ <3
 
 assignSharedSuccess =
     {-b}<@&{$role}> is now being shared with {$member}!{-b}
-    They can now post as {$roleName}
+    Be responsible, {$member}!
 
 ## Unassign
 roleNotAssigned = 
@@ -83,7 +88,7 @@ roleNotAssigned =
 
 unassignSuccess =
     {-b}{$member} doesn't have <@&{$role}> anymore!{-b}
-    They've lost all rights on {$roleName} :)
+    Goodbye!
 
 ## Chars
 memberHasNoChars =
@@ -98,7 +103,7 @@ mainCharacter =
 
 ## Check
 unownedChar =
-    {-b}{$name} is currently unclaimed!{-b}
+    {-b}<@&{$role}> is currently unclaimed!{-b}
     Maybe you should claim them~ :)
 
 ## Edit
