@@ -65,3 +65,12 @@ export const setCharacter = async (
   );
   return rowCount;
 };
+
+export const getCharacters = async () : Promise<Character[]> => {
+  const { rows } = await pool().query<Character>(`
+  SELECT
+    ${getInt('roleid')}, name, description, avatar, canon
+  FROM characters;
+  `);
+  return rows;
+};

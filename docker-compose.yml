@@ -18,6 +18,7 @@ services:
       SUPPORTED_LANG: ${SUPPORTED_LANG}
       LANG_DIR: ${LANG_DIR}
       OWNER_ID: ${OWNER_ID}
+      CANON_ROLE_ID_HIGHER: ${CANON_ROLE_ID_HIGHER}
     depends_on:
       - postgres
 
