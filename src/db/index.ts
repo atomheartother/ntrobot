@@ -3,7 +3,9 @@ import {
   assign, unassign, AssignReturn, getCharsFromMemberId, getMembersFromCharId,
 } from './assigned';
 import { rmMember } from './members';
-import { getCharacterFromId, setCharacter, createCharacter as SQLcreateCharacter } from './characters';
+import {
+  getCharacterFromId, setCharacter, createCharacter as SQLcreateCharacter, getCharacters,
+} from './characters';
 
 // Common
 export const initDatabase = init;
@@ -32,3 +34,4 @@ export const deleteMember = rmMember;
 export const createCharacter = SQLcreateCharacter;
 export const getCharacter = getCharacterFromId;
 export const editCharacter = setCharacter;
+export const getAllCharacters = getCharacters;
