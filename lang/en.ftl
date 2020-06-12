@@ -102,9 +102,9 @@ mainCharacter =
     Main owner of this character.
 
 ## Check
-unownedChar =
-    {-b}<@&{$role}> is currently unclaimed!{-b}
-    Maybe you should claim them~ :)
+unownedCharTitle = {-b}They're currently unclaimed!{-b}
+unownedCharBody = Maybe you should claim them~ :)
+noDescription = No description available.
 
 ## Edit
 cannotEdit =
