@@ -1,10 +1,10 @@
 import { TextChannel, Message } from 'discord.js';
 import { CommandOptions } from '.';
-import { getRoleFromMention, getMemberFromId } from '../discord';
+import { getRoleFromId } from '../discord';
 import { ts, eb } from '../send';
-import { roleAssignments, getCharacter, editCharacter } from '../db';
-import permisssionList from './perms';
+import { editCharacter } from '../db';
 import { characterEmbed } from './show';
+import { getCharFromStr } from '../utils/getters';
 
 const edit = async (
   args: string[],
@@ -12,23 +12,11 @@ const edit = async (
   options: CommandOptions,
   message: Message,
 ) : Promise<void> => {
-  const roleStr = args.shift();
-  const role = getRoleFromMention(channel.guild, roleStr);
-  if (!role) {
-    ts(channel, 'noSuchRole', { role: roleStr });
+  const name = args.shift();
+  const char = await getCharFromStr(name, channel.guild);
+  if (!char) {
+    ts(channel, 'noSuchChar', { name });
     return;
-  }
-  const char = await getCharacter(role.id);
-  // Staff can edit a character,
-  // and so can the owner of a character
-  const member = getMemberFromId(channel.guild, message.author.id);
-  if (!permisssionList.manageRoles(member, channel)) {
-    const members = await roleAssignments(role.id);
-    const index = members.findIndex(({ memberid }) => (memberid === member.id));
-    if (index === -1) {
-      ts(channel, 'cannotEdit', { name: char.name || role.name });
-      return;
-    }
   }
   if (options.name) {
     char.name = options.name as string;
@@ -42,6 +30,7 @@ const edit = async (
     char.avatar = url;
   }
   editCharacter(char);
+  const role = await getRoleFromId(channel.guild, char.roleid);
   eb(channel, { embed: characterEmbed(char, role) });
 };
 

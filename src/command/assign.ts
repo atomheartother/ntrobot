@@ -1,18 +1,19 @@
 import { TextChannel } from 'discord.js';
-import { getMemberFromMention, getRoleFromMention } from '../discord';
+import { getMemberFromMention, getRoleFromMention, getRoleFromId } from '../discord';
 import { ts } from '../send';
 import { CommandOptions } from '.';
 import { assignChar } from '../db';
+import { getCharFromStr } from '../utils/getters';
 
-const assign = (
+const assign = async (
   args: string[],
   channel: TextChannel,
   options : CommandOptions,
-) : void => {
-  const roleStr = args.shift();
-  const role = getRoleFromMention(channel.guild, roleStr);
-  if (!role) {
-    ts(channel, 'noSuchRole', { role: roleStr });
+) : Promise<void> => {
+  const name = args.shift();
+  const char = await getCharFromStr(name, channel.guild);
+  if (!char) {
+    ts(channel, 'noSuchChar', { name });
     return;
   }
   const memberStr = args.shift();
@@ -22,18 +23,16 @@ const assign = (
     return;
   }
   const isShared = !!(options.shared || options.share);
-  assignChar(role.id, member.id, isShared);
-  member.roles.add(role);
+  assignChar(char.roleid, member.id, isShared);
+  member.roles.add(char.roleid);
   if (!isShared) {
     ts(channel, 'assignSuccess', {
-      role: role.id,
-      roleName: role.name,
+      role: char.roleid,
       member: member.user.tag,
     });
   } else {
     ts(channel, 'assignSharedSuccess', {
-      role: role.id,
-      roleName: role.name,
+      role: char.roleid,
       member: member.user.tag,
     });
   }

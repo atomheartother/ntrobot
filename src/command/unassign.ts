@@ -2,15 +2,16 @@ import { TextChannel } from 'discord.js';
 import { getMemberFromMention, getRoleFromMention } from '../discord';
 import { ts } from '../send';
 import { unassignChar } from '../db';
+import { getCharFromStr } from '../utils/getters';
 
-const unassign = (
+const unassign = async (
   args: string[],
   channel: TextChannel,
-) : void => {
-  const roleStr = args.shift();
-  const role = getRoleFromMention(channel.guild, roleStr);
-  if (!role) {
-    ts(channel, 'noSuchRole', { role: roleStr });
+) : Promise<void> => {
+  const name = args.shift();
+  const char = await getCharFromStr(name, channel.guild);
+  if (!char) {
+    ts(channel, 'noSuchChar', { name });
     return;
   }
   const memberStr = args.shift();
@@ -19,13 +20,13 @@ const unassign = (
     ts(channel, 'noSuchMember', { member: memberStr });
     return;
   }
-  if (!member.roles.cache.get(role.id)) {
-    ts(channel, 'roleNotAssigned', { role: role.id, member: member.user.tag, roleName: role.name });
+  if (!member.roles.cache.get(char.roleid)) {
+    ts(channel, 'roleNotAssigned', { role: char.roleid, member: member.user.tag });
     return;
   }
-  unassignChar(role.id, member.id);
-  member.roles.remove(role);
-  ts(channel, 'unassignSuccess', { role: role.id, member: member.user.tag, roleName: role.name });
+  unassignChar(char.roleid, member.id);
+  member.roles.remove(char.roleid);
+  ts(channel, 'unassignSuccess', { role: char.roleid, member: member.user.tag });
   // message.delete();
 };
 
