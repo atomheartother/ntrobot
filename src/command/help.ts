@@ -2,7 +2,7 @@ import { TextChannel, MessageEmbed } from 'discord.js';
 import { eb } from '../send';
 import i18n from '../i18n';
 
-const help = (args: string[], channel: TextChannel) : void => {
+const help = (channel: TextChannel) : void => {
   const prefix = process.env.PREFIX;
   const language = 'en';
   const embed = new MessageEmbed()

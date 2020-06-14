@@ -5,8 +5,8 @@ import i18n from '../i18n';
 import { memberAssignments } from '../db';
 
 const chars = async (
-  args: string[],
   channel: TextChannel,
+  args: string[],
 ) : Promise<void> => {
   const memberStr = args.shift();
   const member = getMemberFromMention(channel.guild, memberStr);
