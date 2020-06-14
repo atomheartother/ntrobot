@@ -2,9 +2,9 @@ import { TextChannel, Role, MessageEmbed } from 'discord.js';
 import { roleAssignments } from '../db';
 import { getMemberFromId, getRoleFromId } from '../discord';
 import { Character } from '../db/characters';
-import { ts, eb } from '../send';
+import { eb } from '../send';
 import i18n from '../i18n';
-import { getCharFromStr } from '../utils/getters';
+import { FunctionParams } from './type';
 
 export const characterEmbed = (char: Character | null, role: Role) : MessageEmbed => {
   const language = 'en';
@@ -18,16 +18,10 @@ export const characterEmbed = (char: Character | null, role: Role) : MessageEmbe
   return embed;
 };
 
-const check = async (
+const show = async (
   channel: TextChannel,
-  args: string[],
+  [char] : FunctionParams<'show'>,
 ) : Promise<void> => {
-  const name = args.shift();
-  const char = await getCharFromStr(name, channel.guild);
-  if (!char) {
-    ts(channel, 'noSuchChar', { name });
-    return;
-  }
   const language = 'en';
   const memberList = await roleAssignments(char.roleid);
   const role = getRoleFromId(channel.guild, char.roleid);
@@ -42,4 +36,4 @@ const check = async (
   eb(channel, { embed });
 };
 
-export default check;
+export default show;

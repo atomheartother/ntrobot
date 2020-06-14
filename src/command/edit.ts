@@ -1,36 +1,34 @@
 import { TextChannel, Message } from 'discord.js';
-import { CommandOptions } from '.';
+import { CommandOptions, FunctionParams } from './type';
 import { getRoleFromId } from '../discord';
-import { ts, eb } from '../send';
+import { eb } from '../send';
 import { editCharacter } from '../db';
 import { characterEmbed } from './show';
-import { getCharFromStr } from '../utils/getters';
 
 const edit = async (
   channel: TextChannel,
-  args: string[],
+  [char, rest]: FunctionParams<'edit'>,
   options: CommandOptions,
   message: Message,
 ) : Promise<void> => {
-  const name = args.shift();
-  const char = await getCharFromStr(name, channel.guild);
-  if (!char) {
-    ts(channel, 'noSuchChar', { name });
-    return;
-  }
+  const newChar = { ...char };
   if (options.name) {
-    char.name = options.name as string;
+    newChar.name = options.name as string;
   }
-  const descriptionOption = options.description || options.describe || options.desc;
+  const descriptionOption = options.description
+  || options.describe
+  || options.desc
+  || options.described;
   if (descriptionOption) {
-    char.description = args.join(' ');
+    const [, ...otherLines] = message.content.split('\n');
+    newChar.description = `${rest.join(' ')}\n${otherLines.join('\n')}`;
   }
   if (message.attachments.first()) {
     const { url } = message.attachments.first();
-    char.avatar = url;
+    newChar.avatar = url;
   }
-  editCharacter(char);
-  const role = await getRoleFromId(channel.guild, char.roleid);
+  await editCharacter(newChar);
+  const role = getRoleFromId(channel.guild, char.roleid);
   eb(channel, { embed: characterEmbed(char, role) });
 };
 

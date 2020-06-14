@@ -1,5 +1,6 @@
 import { TextChannel, Message } from 'discord.js';
-import permisssionList, { Permission } from './perms';
+import permisssionList from './perms';
+import argumentParser, { PossibleArgumentResults } from './args';
 import help from './help';
 import assign from './assign';
 import unassign from './unassign';
@@ -9,56 +10,52 @@ import show from './show';
 import edit from './edit';
 
 import { getMemberFromId } from '../discord';
-
-type BotCommand = 'help' | 'unassign' | 'assign' | 'chars' | 'show' | 'edit';
-
-export type CommandOptions = {
-    [key:string] : (string | boolean);
-}
-
-type CommandDefinition = {
-    f: (channel: TextChannel, args: string[], options : CommandOptions, message: Message) => void;
-    perms: Permission[],
-    minArgs: number;
-    aliases?: string[];
-};
+import {
+  BotCommand, CommandDefinition, CommandOptions, FunctionParams,
+} from './type';
 
 const CmdList : {
-    [key in BotCommand]: CommandDefinition
+    [key in BotCommand]: CommandDefinition<key>
 } = {
   help: {
     f: help,
     perms: [],
+    args: [],
     minArgs: 0,
     aliases: ['h', '?'],
   },
   assign: {
     f: assign,
     perms: ['manageRoles'],
+    args: ['char', 'member'],
     minArgs: 2,
     aliases: ['a', 'give'],
   },
   unassign: {
     f: unassign,
     perms: ['characterOwner'],
+    args: ['char', 'member'],
     minArgs: 2,
     aliases: ['u', 'un', 'remove'],
   },
   chars: {
     f: chars,
     perms: [],
+    args: ['member'],
     minArgs: 1,
     aliases: ['c', 'char', 'characters'],
   },
   show: {
     f: show,
     perms: [],
+    args: ['char'],
     minArgs: 1,
     aliases: ['s', 'display', 'profile', 'describe', 'members', 'owned', 'check'],
   },
   edit: {
     f: edit,
     perms: ['characterOwner'],
+    args: ['char', 'rest'],
     minArgs: 1,
     aliases: ['e', 'modify', 'set', 'register'],
   },
@@ -94,14 +91,18 @@ const parseWords = (line: string) : {args: string[], options: CommandOptions} =>
 };
 
 // The entrypoint for all commands
-const runCommand = (content : string, channel : TextChannel, message: Message) : void => {
+const runCommand = async (
+  content : string,
+  channel : TextChannel,
+  message: Message,
+) : Promise<void> => {
   // Get the first line, which should hold the actual command
-  const [firstLine, ...lines] = content.split(/\n+/);
+  const [firstLine] = content.split('\n');
   if (!firstLine) return;
   const [firstWord, ...words] = firstLine.split(/ +/);
   const verb = getCmdFromWord(firstWord);
   if (!verb) return;
-  const cmd = CmdList[verb];
+  const cmd : CommandDefinition<typeof verb> = CmdList[verb];
 
   // Check permissions
   const member = getMemberFromId(channel.guild, message.author.id);
@@ -115,14 +116,17 @@ const runCommand = (content : string, channel : TextChannel, message: Message) :
 
   // Parse the args provided
   const { args, options } = parseWords(words.join(' '));
-  // Check number of args
   if (args.length < cmd.minArgs) {
-    ts(channel, `usage-${verb}`, { cmd: verb, minArgs: cmd.minArgs });
+    ts(channel, `usage-${verb}`, { cmd: verb });
     return;
   }
-  const commandArgs = args.concat('\n', lines.join('\n'));
+  const commandArgs = await Promise.all<PossibleArgumentResults>(cmd.args.map(
+    (arg, i) => argumentParser[arg](channel, args[i], args, i),
+  ));
+  // Check args
+  if (args.findIndex((arg) => !arg) !== -1) return;
   // Run the command, recombining the lines from before
-  cmd.f(channel, commandArgs, options, message);
+  cmd.f(channel, commandArgs as FunctionParams<typeof verb>, options, message);
 };
 
 export default runCommand;
