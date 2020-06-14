@@ -97,10 +97,9 @@ const parseWords = (line: string) : {args: string[], options: CommandOptions} =>
 // The entrypoint for all commands
 const runCommand = (content : string, channel : TextChannel, message: Message) : void => {
   // Get the first line, which should hold the actual command
-  const lines = content.split(/\n+/);
-  if (lines.length < 1) return;
-  const words = lines.shift().split(/ +/);
-  const firstWord = words.shift();
+  const [firstLine, ...lines] = content.split(/\n+/);
+  if (!firstLine) return;
+  const [firstWord, ...words] = firstLine.split(/ +/);
   const verb = getCmdFromWord(firstWord);
   if (!verb) return;
   const cmd = CmdList[verb];
