@@ -19,8 +19,8 @@ export const characterEmbed = (char: Character | null, role: Role) : MessageEmbe
 };
 
 const check = async (
-  args: string[],
   channel: TextChannel,
+  args: string[],
 ) : Promise<void> => {
   const name = args.shift();
   const char = await getCharFromStr(name, channel.guild);

@@ -17,7 +17,7 @@ export type CommandOptions = {
 }
 
 type CommandDefinition = {
-    f: (args: string[], channel: TextChannel, options : CommandOptions, message: Message) => void;
+    f: (channel: TextChannel, args: string[], options : CommandOptions, message: Message) => void;
     perms: Permission[],
     minArgs: number;
     sendString?: boolean;
@@ -122,8 +122,9 @@ const runCommand = (content : string, channel : TextChannel, message: Message) :
     ts(channel, `usage-${verb}`, { cmd: verb, minArgs: cmd.minArgs });
     return;
   }
+  const commandArgs = args.concat('\n', lines.join('\n'));
   // Run the command, recombining the lines from before
-  cmd.f(args.concat('\n', lines.join('\n').split(/ +/)), channel, options, message);
+  cmd.f(channel, commandArgs, options, message);
 };
 
 export default runCommand;

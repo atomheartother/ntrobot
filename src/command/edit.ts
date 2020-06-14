@@ -7,8 +7,8 @@ import { characterEmbed } from './show';
 import { getCharFromStr } from '../utils/getters';
 
 const edit = async (
-  args: string[],
   channel: TextChannel,
+  args: string[],
   options: CommandOptions,
   message: Message,
 ) : Promise<void> => {

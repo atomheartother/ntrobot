@@ -5,8 +5,8 @@ import { unassignChar } from '../db';
 import { getCharFromStr } from '../utils/getters';
 
 const unassign = async (
-  args: string[],
   channel: TextChannel,
+  args: string[],
 ) : Promise<void> => {
   const name = args.shift();
   const char = await getCharFromStr(name, channel.guild);

@@ -6,8 +6,8 @@ import { assignChar } from '../db';
 import { getCharFromStr } from '../utils/getters';
 
 const assign = async (
-  args: string[],
   channel: TextChannel,
+  args: string[],
   options : CommandOptions,
 ) : Promise<void> => {
   const name = args.shift();
