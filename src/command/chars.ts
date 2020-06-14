@@ -3,17 +3,12 @@ import { getMemberFromMention, getRoleFromId } from '../discord';
 import { ts, eb } from '../send';
 import i18n from '../i18n';
 import { memberAssignments } from '../db';
+import { FunctionParams } from './type';
 
 const chars = async (
   channel: TextChannel,
-  args: string[],
+  [member]: FunctionParams<'chars'>,
 ) : Promise<void> => {
-  const memberStr = args.shift();
-  const member = getMemberFromMention(channel.guild, memberStr);
-  if (!member) {
-    ts(channel, 'noSuchMember', { member: memberStr });
-    return;
-  }
   const language = 'en';
   const charList = await memberAssignments(member.id);
   if (charList.length < 1) {
