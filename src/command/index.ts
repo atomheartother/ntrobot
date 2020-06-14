@@ -20,7 +20,6 @@ type CommandDefinition = {
     f: (channel: TextChannel, args: string[], options : CommandOptions, message: Message) => void;
     perms: Permission[],
     minArgs: number;
-    sendString?: boolean;
     aliases?: string[];
 };
 
