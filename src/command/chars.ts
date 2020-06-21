@@ -1,13 +1,13 @@
-import { MessageEmbed, TextChannel } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import { getRoleFromId } from '../discord';
 import { ts, eb } from '../send';
 import i18n from '../i18n';
 import { memberAssignments } from '../db';
-import { FunctionParams } from './type';
+import { CommandCallback } from './type';
 
-const chars = async (
-  channel: TextChannel,
-  [member]: FunctionParams<'chars'>,
+const chars : CommandCallback<'chars'> = async (
+  channel,
+  [member],
 ) : Promise<void> => {
   const language = 'en';
   const charList = await memberAssignments(member.id);

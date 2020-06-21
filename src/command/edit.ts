@@ -1,15 +1,14 @@
-import { TextChannel, Message } from 'discord.js';
-import { CommandOptions, FunctionParams } from './type';
+import { CommandCallback } from './type';
 import { getRoleFromId } from '../discord';
 import { eb } from '../send';
 import { editCharacter } from '../db';
 import { characterEmbed } from './show';
 
-const edit = async (
-  channel: TextChannel,
-  [char, rest]: FunctionParams<'edit'>,
-  options: CommandOptions,
-  message: Message,
+const edit : CommandCallback<'edit'> = async (
+  channel,
+  [char, rest],
+  options,
+  message,
 ) : Promise<void> => {
   const newChar = { ...char };
   if (options.name) {
