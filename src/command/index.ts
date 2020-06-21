@@ -8,6 +8,7 @@ import chars from './chars';
 import { ts } from '../send';
 import show from './show';
 import edit from './edit';
+import announce from './announce';
 
 import { getMemberFromId } from '../discord';
 import {
@@ -59,13 +60,20 @@ const CmdList : {
     minArgs: 1,
     aliases: ['e', 'modify', 'set', 'register'],
   },
+  announce: {
+    f: announce,
+    perms: ['isAdmin'],
+    args: ['channel'],
+    minArgs: 0,
+  },
 };
 
 const getCmdFromWord = (word : string) : BotCommand => {
   if (CmdList[word as BotCommand]) return word as BotCommand;
   for (let i = 0; i < Object.keys(CmdList).length; i += 1) {
-    const key = Object.keys(CmdList)[i];
-    if (CmdList[key as BotCommand].aliases.indexOf(word) !== -1) return key as BotCommand;
+    const key = Object.keys(CmdList)[i] as BotCommand;
+    const cmd = CmdList[key];
+    if (cmd.aliases && cmd.aliases.indexOf(word) !== -1) return key;
   }
   return null;
 };
@@ -120,9 +128,11 @@ const runCommand = async (
     ts(channel, `usage-${verb}`, { cmd: verb });
     return;
   }
-  const commandArgs = await Promise.all<PossibleArgumentResults>(cmd.args.map(
-    (arg, i) => argumentParser[arg](channel, args[i], args, i),
-  ));
+  const commandArgs = await Promise.all<PossibleArgumentResults>(
+    cmd.args.map(
+      (arg, i) => argumentParser[arg](channel, args[i], args, i),
+    ),
+  );
   // Check args
   if (args.findIndex((arg) => !arg) !== -1) return;
   // Run the command, recombining the lines from before

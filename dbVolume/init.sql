@@ -1,7 +1,9 @@
 CREATE TABLE guilds (
     "guildid"     BIGINT PRIMARY KEY,
     "prefix"      text DEFAULT NULL,
-    "lang"        text DEFAULT NULL
+    "lang"        text DEFAULT NULL,
+    "announce"    text DEFAULT NULL,
+    "canonrole"   text DEFAULT NULL
 );
 
 CREATE TABLE characters (

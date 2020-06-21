@@ -75,9 +75,26 @@ export const getMemberFromMention = (
   guild: Guild,
   mention: string,
 ) : GuildMember => {
-  let id = (mention.startsWith('<@') && mention.endsWith('>') ? mention.slice(2, -1) : mention);
+  let id = mention.startsWith('<@') && mention.endsWith('>')
+    ? mention.slice(2, -1)
+    : mention;
   if (id.startsWith('!')) id = id.slice(1);
   return getMemberFromId(guild, id);
+};
+
+export const getChannelFromId = (
+  guild: Guild,
+  id: string,
+) : Channel => guild.channels.cache.get(id);
+
+export const getChannelFromMention = (
+  guild: Guild,
+  mention: string,
+) : Channel => {
+  const id = mention.startsWith('<#') && mention.endsWith('>')
+    ? mention.slice(2, -1)
+    : mention;
+  return getChannelFromId(guild, id);
 };
 
 export const getRoleFromId = (
@@ -89,6 +106,8 @@ export const getRoleFromMention = (
   guild: Guild,
   mention: string,
 ) : Role => {
-  const id = (mention.startsWith('<@&') && mention.endsWith('>') ? mention.slice(3, -1) : mention);
+  const id = (mention.startsWith('<@&') && mention.endsWith('>')
+    ? mention.slice(3, -1)
+    : mention);
   return getRoleFromId(guild, id);
 };

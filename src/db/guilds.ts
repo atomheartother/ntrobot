@@ -1,4 +1,4 @@
-import { pool } from './common';
+import { pool, getInt } from './common';
 
 export const createGuild = async (guildid: string) : Promise<number> => {
   const { rowCount } = await pool().query(
@@ -47,10 +47,31 @@ export const setPrefix = async (guildid : string, prefix : string) : Promise<num
   return inserted;
 };
 
-export const getGuildInfo = async (guildid : string) : Promise<{lang: string, prefix: string}> => {
+export const getGuildInfo = async (guildid : string) : Promise<{
+  lang: string,
+  prefix: string,
+  announce: string
+}> => {
   const { rows: [data] } = await pool().query(
-    'SELECT lang, prefix FROM guilds WHERE guildid=$1 LIMIT 1',
+    `SELECT lang, prefix, ${getInt('announce')} FROM guilds WHERE guildid=$1 LIMIT 1`,
     [guildid],
   );
   return data;
+};
+
+export const setGuildInfo = async (
+  id: string,
+  lang: string | null,
+  prefix: string | null,
+  announce: string | null,
+) : Promise<number> => {
+  const { rows: [{ case: inserted }] } = await pool().query(
+    `INSERT INTO guilds(guildid, lang, prefix, announce)
+      VALUES($1, $2, $3, $4)
+      ON CONFLICT(guildid) DO
+        UPDATE SET lang=$2, prefix=$3, announce=$4
+      RETURNING case when xmax::text::int > 0 then 0 else 1 end`,
+    [id, lang, prefix, announce],
+  );
+  return inserted;
 };
