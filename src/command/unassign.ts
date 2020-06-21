@@ -1,11 +1,10 @@
-import { TextChannel } from 'discord.js';
 import { ts } from '../send';
 import { unassignChar } from '../db';
-import { FunctionParams } from './type';
+import { CommandCallback } from './type';
 
-const unassign = async (
-  channel: TextChannel,
-  [char, member]: FunctionParams<'unassign'>,
+const unassign : CommandCallback<'unassign'> = async (
+  channel,
+  [char, member],
 ) : Promise<void> => {
   if (!member.roles.cache.get(char.roleid)) {
     ts(channel, 'roleNotAssigned', { role: char.roleid, member: member.user.tag });

@@ -1,12 +1,11 @@
-import { TextChannel } from 'discord.js';
 import { ts } from '../send';
-import { CommandOptions, FunctionParams } from './type';
+import { CommandCallback } from './type';
 import { assignChar } from '../db';
 
-const assign = async (
-  channel: TextChannel,
-  [char, member]: FunctionParams<'assign'>,
-  options : CommandOptions,
+const assign :CommandCallback<'assign'> = async (
+  channel,
+  [char, member],
+  options,
 ) : Promise<void> => {
   const isShared = !!(options.shared || options.share);
   assignChar(char.roleid, member.id, isShared);

@@ -1,8 +1,9 @@
-import { TextChannel, MessageEmbed } from 'discord.js';
+import { MessageEmbed } from 'discord.js';
 import { eb } from '../send';
 import i18n from '../i18n';
+import { CommandCallback } from './type';
 
-const help = (channel: TextChannel) : void => {
+const help : CommandCallback<'help'> = async (channel) : Promise<void> => {
   const prefix = process.env.PREFIX;
   const language = 'en';
   const embed = new MessageEmbed()

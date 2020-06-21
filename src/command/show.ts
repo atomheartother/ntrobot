@@ -1,10 +1,10 @@
-import { TextChannel, Role, MessageEmbed } from 'discord.js';
+import { Role, MessageEmbed } from 'discord.js';
 import { roleAssignments } from '../db';
 import { getMemberFromId, getRoleFromId } from '../discord';
 import { Character } from '../db/characters';
 import { eb } from '../send';
 import i18n from '../i18n';
-import { FunctionParams } from './type';
+import { CommandCallback } from './type';
 
 export const characterEmbed = (char: Character | null, role: Role) : MessageEmbed => {
   const language = 'en';
@@ -18,9 +18,9 @@ export const characterEmbed = (char: Character | null, role: Role) : MessageEmbe
   return embed;
 };
 
-const show = async (
-  channel: TextChannel,
-  [char] : FunctionParams<'show'>,
+const show : CommandCallback<'show'> = async (
+  channel,
+  [char],
 ) : Promise<void> => {
   const language = 'en';
   const memberList = await roleAssignments(char.roleid);
