@@ -8,7 +8,7 @@ const assign :CommandCallback<'assign'> = async (
   options,
 ) : Promise<void> => {
   const isShared = !!(options.shared || options.share);
-  assignChar(char.roleid, member.id, isShared);
+  await assignChar(char.roleid, member.id, isShared);
   member.roles.add(char.roleid);
   if (!isShared) {
     ts(channel, 'assignSuccess', {

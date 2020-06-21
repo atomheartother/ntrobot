@@ -53,6 +53,10 @@ noSuchMember =
     {-b}I couldn't find a member from `{$member}`.{-b}
     Either they're not in this server or this is the wrong name/id!
 
+noSuchChannel =
+    {-b}I couldn't find a channel from `{$name}`.{-b}
+    Maybe I can't see that channel, try and make sure I have the proper rights.
+
 ## Permission fails
 isAdminPermFail =
     {-b}You're not an admin!{-b}
@@ -110,3 +114,17 @@ noDescription = No description available.
 cannotEdit =
     {-b}You can't edit {$name}!{-b}
     Only {$name}'s owners and server staff can edit a character.
+
+## Announce
+notTextChannel = 
+    {-b}<{-h}{$channel}> isn't a text channel!{-b}
+    I can only post announcements in text channels.
+
+announceSuccess =
+    {-b}Announcement channel set!{-b}
+    I will now post my announcements in <{-h}{$channel}>.
+
+# Announcements
+memberLeft =
+    {-b}{$tag} has left the server.{-b}
+    They had assigned characters, here are these characters' statuses now:

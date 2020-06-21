@@ -6,7 +6,10 @@ import { rmMember } from './members';
 import {
   getCharacterFromId, setCharacter, createCharacter as SQLcreateCharacter, getCharacters,
 } from './characters';
-
+import {
+  getGuildInfo as SQLgetGuildInfo,
+  setGuildInfo as SQLsetGuildInfo,
+} from './guilds';
 // Common
 export const initDatabase = init;
 
@@ -35,3 +38,12 @@ export const createCharacter = SQLcreateCharacter;
 export const getCharacter = getCharacterFromId;
 export const editCharacter = setCharacter;
 export const getAllCharacters = getCharacters;
+
+// Guilds
+export const getGuildInfo = SQLgetGuildInfo;
+export const setGuildInfo = (
+  id: string,
+  lang: string | null,
+  prefix: string | null,
+  announce: string | null,
+) : Promise<number> => SQLsetGuildInfo(id, lang, prefix, announce);
