@@ -47,7 +47,7 @@ usage-show =
 ## Resolution errors
 noSuchChar =
     {-b}I couldn't find a character from `{$name}`.{-b}
-    Maybe I've never heard of them? :o
+    If you're sure this is the way this character's name is spelled in the wiki, this probably means they're {-b}free{-b} and no one has ever played them!
 
 noSuchMember =
     {-b}I couldn't find a member from `{$member}`.{-b}
