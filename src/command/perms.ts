@@ -23,15 +23,10 @@ const characterOwner = async (
   author: GuildMember,
   args: string[],
 ) : Promise<boolean> => {
-  console.log('Checking if can manage roles...');
   if (await manageRoles(author)) return true;
   const char = await getCharFromStr(args[0], author.guild);
-  console.log('Char:');
-  console.log(char);
   if (!char) return false;
   const owners = await roleAssignments(char.roleid);
-  console.log('Owners:');
-  console.log(owners);
   return owners.findIndex(({ memberid, shared }) => !shared && memberid === author.id) !== -1;
 };
 
