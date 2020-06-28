@@ -136,7 +136,7 @@ const runCommand = async (
     ),
   );
   // Check args
-  if (args.findIndex((arg) => !arg) !== -1) return;
+  if (commandArgs.findIndex((arg) => !arg) !== -1) return;
   // Run the command, recombining the lines from before
   cmd.f(channel, commandArgs as FunctionParams<typeof verb>, options, message);
 };
