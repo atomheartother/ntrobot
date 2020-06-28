@@ -114,10 +114,12 @@ const runCommand = async (
 
   // Check permissions
   const member = getMemberFromId(channel.guild, message.author.id);
-  for (let i = 0; i < Object.values(cmd.perms).length; i += 1) {
-    const perm = Object.values(cmd.perms)[i];
-    if (!permisssionList[perm](member, words)) {
-      ts(channel, `${perm}PermFail`, { command: verb });
+  const passes = await Promise.all(cmd.perms.map((perm) => permisssionList[perm](member, words)));
+
+  for (let i = 0; i < passes.length; i += 1) {
+    const pass = passes[i];
+    if (!pass) {
+      ts(channel, `${cmd.perms[i]}PermFail`, { command: verb });
       return;
     }
   }
