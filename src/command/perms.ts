@@ -11,13 +11,13 @@ const isAdmin = async (author: GuildMember) : Promise<boolean> => (
 );
 
 const isServerMod = async (author: GuildMember) : Promise<boolean> => (
-  isAdmin(author)
+  (await isAdmin(author))
     || author.hasPermission('MANAGE_CHANNELS')
 );
 
 const manageRoles = async (
   author: GuildMember,
-) : Promise<boolean> => isServerMod(author) || !!author.hasPermission('MANAGE_ROLES');
+) : Promise<boolean> => (await isServerMod(author)) || !!author.hasPermission('MANAGE_ROLES');
 
 const characterOwner = async (
   author: GuildMember,
