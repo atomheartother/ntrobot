@@ -6,7 +6,7 @@ import assign from './assign';
 import unassign from './unassign';
 import chars from './chars';
 import { ts } from '../send';
-import show from './show';
+import check from './check';
 import edit from './edit';
 import announce from './announce';
 
@@ -46,12 +46,12 @@ const CmdList : {
     minArgs: 1,
     aliases: ['c', 'char', 'characters'],
   },
-  show: {
-    f: show,
+  check: {
+    f: check,
     perms: [],
     args: ['char'],
     minArgs: 1,
-    aliases: ['s', 'display', 'profile', 'describe', 'members', 'owned', 'check'],
+    aliases: ['s', 'display', 'profile', 'describe', 'members', 'owned', 'show'],
   },
   edit: {
     f: edit,

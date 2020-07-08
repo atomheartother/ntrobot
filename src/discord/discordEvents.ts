@@ -10,7 +10,7 @@ import command from '../command';
 import { memberAssignments, deleteMember } from '../db';
 import { getGuildInfo } from '../db/guilds';
 import { getCharacterFromId } from '../db/characters';
-import show from '../command/show';
+import show from '../command/check';
 
 export const handleMessage = async (message : Message) : Promise<void> => {
   const {

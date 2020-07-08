@@ -2,7 +2,7 @@ import { CommandCallback } from './type';
 import { getRoleFromId } from '../discord';
 import { eb } from '../send';
 import { editCharacter } from '../db';
-import { characterEmbed } from './show';
+import { characterEmbed } from './check';
 
 const edit : CommandCallback<'edit'> = async (
   channel,

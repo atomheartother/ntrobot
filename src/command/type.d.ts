@@ -10,7 +10,7 @@ export type BotCommand =
     | 'unassign'
     | 'assign'
     | 'chars'
-    | 'show'
+    | 'check'
     | 'edit'
     | 'announce';
 
@@ -20,7 +20,7 @@ export type CommandOptions = {
 
 type FunctionParams<T extends BotCommand> =
   T extends 'help' ? null :
-  T extends 'show' ? [Character] :
+  T extends 'check' ? [Character] :
   T extends 'chars' ? [GuildMember] :
   T extends 'edit' ? [Character, string[]] :
   T extends 'assign' ? [Character, GuildMember] :

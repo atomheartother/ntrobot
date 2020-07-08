@@ -18,7 +18,7 @@ export const characterEmbed = (char: Character | null, role: Role) : MessageEmbe
   return embed;
 };
 
-const show : CommandCallback<'show'> = async (
+const check : CommandCallback<'check'> = async (
   channel,
   [char],
 ) : Promise<void> => {
@@ -36,4 +36,4 @@ const show : CommandCallback<'show'> = async (
   eb(channel, { embed });
 };
 
-export default show;
+export default check;
