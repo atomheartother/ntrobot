@@ -67,7 +67,7 @@ manageRolesPermFail =
     {-b}You can't manage user roles!{-b}
     You have to have powers to manage roles to run `{$command}`!
 
-characterOwner =
+characterOwnerPermFail =
     {-b}You don't own this character !{-b}
     You have to own this character in order to run `{$command}`.
     It's also possible I don't know this character.
