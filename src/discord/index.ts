@@ -83,7 +83,7 @@ export const getMemberFromId = async (
 export const getMemberFromMention = (
   guild: Guild,
   mention: string,
-) : Promise<GuildMember> => {
+) : Promise<GuildMember | undefined> => {
   let id = mention.startsWith('<@') && mention.endsWith('>')
     ? mention.slice(2, -1)
     : mention;
