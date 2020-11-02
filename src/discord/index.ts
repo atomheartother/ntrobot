@@ -70,9 +70,14 @@ export const getMemberFromId = async (
   guild: Guild,
   id: string,
 ) : Promise<GuildMember | undefined> => {
-  const member = guild.members.cache.get(id);
+  let member = guild.members.cache.get(id);
   if (member) return member;
-  return guild.members.fetch(id);
+  try {
+    member = await guild.members.fetch(id);
+  } catch (e) {
+    return undefined;
+  }
+  return member;
 };
 
 export const getMemberFromMention = (
