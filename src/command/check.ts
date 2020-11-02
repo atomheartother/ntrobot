@@ -27,8 +27,10 @@ const check : CommandCallback<'check'> = async (
   const memberList = await roleAssignments(char.roleid);
   const role = getRoleFromId(channel.guild, char.roleid);
   const embed = characterEmbed(char, role);
-  memberList.forEach(({ memberid, shared }) => {
-    const member = getMemberFromId(channel.guild, memberid);
+  const promises = memberList.map(({ memberid }) => getMemberFromId(channel.guild, memberid));
+  const members = await Promise.all(promises);
+  memberList.forEach(({ memberid, shared }, idx) => {
+    const member = members[idx];
     if (member) { // Not displayed in the tags, but you can have a non-existent member in your ids
       embed.addField(`${member.user.tag} (${member.id})`, i18n(language, shared ? 'sharedCharacter' : 'mainCharacter'));
     } else {

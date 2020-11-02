@@ -36,7 +36,7 @@ const char : ParseArgumentFunction<'char'> = async (channel, name) => {
 };
 
 const member : ParseArgumentFunction<'member'> = async (channel, name) => {
-  const res = getMemberFromMention(channel.guild, name);
+  const res = await getMemberFromMention(channel.guild, name);
   if (!res) {
     ts(channel, 'noSuchMember', { member: name });
   }

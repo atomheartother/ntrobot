@@ -1,6 +1,6 @@
 // Direct mappings for js methods
 import {
-  Client, Permissions, ClientUser, Guild, User, DMChannel, Channel, TextChannel, Role, GuildMember,
+  Client, Permissions, ClientUser, Guild, User, DMChannel, Channel, TextChannel, Role, GuildMember, GuildAuditLogs,
 } from 'discord.js';
 import Backup from '../utils/Backup';
 import log from '../utils/log';
@@ -66,15 +66,19 @@ export const canPostEmbedIn = (channel: TextChannel) : boolean => {
   );
 };
 
-export const getMemberFromId = (
+export const getMemberFromId = async (
   guild: Guild,
   id: string,
-) : GuildMember => guild.members.cache.get(id);
+) : Promise<GuildMember | undefined> => {
+  const member = guild.members.cache.get(id);
+  if (member) return member;
+  return guild.members.fetch(id);
+};
 
 export const getMemberFromMention = (
   guild: Guild,
   mention: string,
-) : GuildMember => {
+) : Promise<GuildMember> => {
   let id = mention.startsWith('<@') && mention.endsWith('>')
     ? mention.slice(2, -1)
     : mention;
