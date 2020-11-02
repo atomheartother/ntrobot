@@ -5,6 +5,7 @@ import { Character } from '../db/characters';
 import { eb } from '../send';
 import i18n from '../i18n';
 import { CommandCallback } from './type';
+import log from '../utils/log';
 
 export const characterEmbed = (char: Character | null, role: Role) : MessageEmbed => {
   const language = 'en';
@@ -31,10 +32,11 @@ const check : CommandCallback<'check'> = async (
     if (member) { // Not displayed in the tags, but you can have a non-existent member in your ids
       embed.addField(`${member.user.tag} (${member.id})`, i18n(language, shared ? 'sharedCharacter' : 'mainCharacter'));
     } else {
+      log(`Member ${memberid} can't be found on ${char.roleid}. Unassigning.`);
       unassignChar(char.roleid, memberid);
     }
   });
-  if (memberList.length < 1) {
+  if (embed.fields.length < 1) {
     embed.addField(i18n(language, 'unownedCharTitle'), i18n(language, 'unownedCharBody'));
   }
   eb(channel, { embed });
