@@ -1,5 +1,5 @@
-import { Role, MessageEmbed } from 'discord.js';
-import { roleAssignments } from '../db';
+import { Role, MessageEmbed, GuildMember } from 'discord.js';
+import { roleAssignments, unassignChar } from '../db';
 import { getMemberFromId, getRoleFromId } from '../discord';
 import { Character } from '../db/characters';
 import { eb } from '../send';
@@ -28,7 +28,11 @@ const check : CommandCallback<'check'> = async (
   const embed = characterEmbed(char, role);
   memberList.forEach(({ memberid, shared }) => {
     const member = getMemberFromId(channel.guild, memberid);
-    embed.addField(`${member.user.tag} (${member.id})`, i18n(language, shared ? 'sharedCharacter' : 'mainCharacter'));
+    if (member) { // Not displayed in the tags, but you can have a non-existent member in your ids
+      embed.addField(`${member.user.tag} (${member.id})`, i18n(language, shared ? 'sharedCharacter' : 'mainCharacter'));
+    } else {
+      unassignChar(char.roleid, memberid);
+    }
   });
   if (memberList.length < 1) {
     embed.addField(i18n(language, 'unownedCharTitle'), i18n(language, 'unownedCharBody'));
