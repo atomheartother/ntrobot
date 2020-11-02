@@ -1,6 +1,6 @@
 // Direct mappings for js methods
 import {
-  Client, Permissions, ClientUser, Guild, User, DMChannel, Channel, TextChannel, Role, GuildMember, GuildAuditLogs,
+  Client, Permissions, ClientUser, Guild, User, DMChannel, Channel, TextChannel, Role, GuildMember,
 } from 'discord.js';
 import Backup from '../utils/Backup';
 import log from '../utils/log';
