@@ -23,7 +23,7 @@ const CmdList : {
     perms: [],
     args: [],
     minArgs: 0,
-    aliases: ['h', '?'],
+    aliases: ['h'],
   },
   assign: {
     f: assign,
