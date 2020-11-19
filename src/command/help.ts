@@ -13,7 +13,7 @@ const help : CommandCallback<'help'> = async (channel) : Promise<void> => {
     .addField(`${prefix}chars`, i18n(language, 'usage-chars'))
     .addField(`${prefix}assign`, i18n(language, 'usage-assign'))
     .addField(`${prefix}unassign`, i18n(language, 'usage-unassign'))
-    .addField(`${prefix}show`, i18n(language, 'usage-show'))
+    .addField(`${prefix}check`, i18n(language, 'usage-check'))
     .addField(`${prefix}edit`, i18n(language, 'usage-edit'));
   eb(channel, { embed });
 };
