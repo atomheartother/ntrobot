@@ -14,7 +14,7 @@ RUN yarn build
 
 FROM node:15.7.0-alpine
 
-RUN addgroup --gid 10001 nonroot && adduser --gecos "NTRobot user" --uid 10000 --gid 10001 --home /home/nonroot --disabled-password nonroot
+RUN addgroup --gid 10001 nonroot && adduser --gecos "NTRobot user" --uid 10000 --ingroup nonroot --home /home/nonroot --disabled-password nonroot
 
 WORKDIR /home/nonroot/app
 
