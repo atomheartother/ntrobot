@@ -43,7 +43,7 @@ usage-edit =
 # Errors
 ## Resolution errors
 noSuchChar =
-    {-b}I couldn't find a character from `{$name}`.{-b}
+    {-b}I couldn't find a character from `{$name}`, or you didn't pick one in time.{-b}
     If you're sure this is the way this character's name is spelled in the wiki, this probably means they're {-b}free{-b} and no one has ever played them!
 
 noSuchMember =
@@ -53,6 +53,10 @@ noSuchMember =
 noSuchChannel =
     {-b}I couldn't find a channel from `{$name}`.{-b}
     Maybe I can't see that channel, try and make sure I have the proper rights.
+
+pickCharacter =
+    {-b}I found multiple characters from `{$charStr}`!{-b}
+    Select with the arrows then press :white_check_mark: to confirm!
 
 ## Permission fails
 isAdminPermFail =

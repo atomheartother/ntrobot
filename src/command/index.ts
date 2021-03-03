@@ -114,7 +114,9 @@ const runCommand = async (
 
   // Check permissions
   const member = await getMemberFromId(channel.guild, message.author.id);
-  const passes = await Promise.all(cmd.perms.map((perm) => permisssionList[perm](member, words)));
+  const passes = await Promise.all(
+    cmd.perms.map((perm) => permisssionList[perm](member, words, channel)),
+  );
 
   for (let i = 0; i < passes.length; i += 1) {
     const pass = passes[i];
@@ -132,7 +134,7 @@ const runCommand = async (
   }
   const commandArgs = await Promise.all<PossibleArgumentResults>(
     cmd.args.map(
-      (arg, i) => argumentParser[arg](channel, args[i], args, i),
+      (arg, i) => argumentParser[arg](channel, args[i], args, i, message.author),
     ),
   );
   // Check args

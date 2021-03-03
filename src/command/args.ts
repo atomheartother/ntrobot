@@ -1,4 +1,6 @@
-import { TextChannel, GuildMember, Channel } from 'discord.js';
+import {
+  TextChannel, GuildMember, Channel, User,
+} from 'discord.js';
 import { Character } from '../db/characters';
 import { getCharFromStr } from '../utils/getters';
 import { ts } from '../send';
@@ -24,11 +26,11 @@ export type ArgumentResult<T extends Argument> =
     string;
 
 type ParseArgumentFunction<T extends Argument> = (
-    channel: TextChannel, str: string, allArgs: string[], index: number,
+    channel: TextChannel, str: string, allArgs: string[], index: number, author: User
 ) => Promise<ArgumentResult<T>>;
 
-const char : ParseArgumentFunction<'char'> = async (channel, name) => {
-  const res = await getCharFromStr(name, channel.guild);
+const char : ParseArgumentFunction<'char'> = async (channel, name, _, __, author) => {
+  const res = await getCharFromStr(name, channel, author);
   if (!res) {
     ts(channel, 'noSuchChar', { name });
   }

@@ -1,10 +1,14 @@
-import { GuildMember } from 'discord.js';
+import { GuildMember, TextChannel } from 'discord.js';
 import { roleAssignments } from '../db';
 import { getCharFromStr } from '../utils/getters';
 
 export type Permission = 'isAdmin' | 'isServerMod' | 'manageRoles' | 'characterOwner';
 
-type PermissionEntry = (author: GuildMember, args: string[]) => Promise<boolean>;
+type PermissionEntry = (
+  author: GuildMember,
+  args: string[],
+  channel: TextChannel
+) => Promise<boolean>;
 
 const isAdmin = async (author: GuildMember) : Promise<boolean> => (
   author.hasPermission('ADMINISTRATOR') || author.id === process.env.OWNER_ID
@@ -22,9 +26,10 @@ const manageRoles = async (
 const characterOwner = async (
   author: GuildMember,
   args: string[],
+  channel: TextChannel,
 ) : Promise<boolean> => {
   if (await manageRoles(author)) return true;
-  const char = await getCharFromStr(args[0], author.guild);
+  const char = await getCharFromStr(args[0], channel);
   if (!char) return false;
   const owners = await roleAssignments(char.roleid);
   return owners.findIndex(({ memberid, shared }) => !shared && memberid === author.id) !== -1;

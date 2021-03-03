@@ -1,8 +1,7 @@
-import { Role, MessageEmbed, GuildMember } from 'discord.js';
+import { Role, MessageEmbed } from 'discord.js';
 import { roleAssignments, unassignChar } from '../db';
 import { getMemberFromId, getRoleFromId } from '../discord';
 import { Character } from '../db/characters';
-import { eb } from '../send';
 import i18n from '../i18n';
 import { CommandCallback } from './type';
 import log from '../utils/log';
